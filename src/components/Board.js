@@ -17,7 +17,7 @@ export default function Board() {
       <Grid container spacing={3}>
         {cards.map(x =>
           <Grid item xs={4}>
-            <GameCard foo={x} />
+            <GameCard card={x} />
           </Grid>
         )}
       </Grid>

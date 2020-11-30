@@ -16,8 +16,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function GameCard(props) {
-  const { foo } = { ...props };
-  const pictureUrl = `./resources/pictures/${foo}.jpg`;
+  const { card } = { ...props };
+  const pictureUrl = `./resources/pictures/${card}.jpg`;
   
   const classes = useStyles();
 
@@ -28,12 +28,5 @@ export default function GameCard(props) {
         image={ pictureUrl }
       />
     </Paper>
-
-    // <Card className={classes.gameCard}>
-    //   <CardMedia
-    //     className={classes.gameCard}
-    //     image={ pictureUrl }
-    //   />
-    // </Card>
   );
 }
