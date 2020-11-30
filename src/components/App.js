@@ -4,11 +4,9 @@ import AppNavigation from './AppNavigation';
 
 function App() {
   return (
-    <div className='app'>
-      <Store>
-        <AppNavigation />
-      </Store>
-    </div>
+    <Store>
+      <AppNavigation />
+    </Store>
   );
 }
 
