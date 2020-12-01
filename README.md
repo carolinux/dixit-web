@@ -1,4 +1,4 @@
-# Dixit WEB UI
+# Dixit WEB UI (In progress)
 This is the web UI of an app that allows friends to play dixit online
 
 ## Get started
