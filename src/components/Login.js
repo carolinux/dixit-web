@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Update } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +39,8 @@ export default function Login() {
   // Use global state
   const [state, setState] = useContext(Context);
 
+  const history = useHistory();  
+
   const addPlayer = () => {
     const { players, playersCounter } = { ...state };
     if(playersCounter>=5) {
@@ -54,6 +56,7 @@ export default function Login() {
     }
     if(!!playerName){
       setState({type: 'ADD_PLAYER', payload: playerName});
+      history.push('/hand');
     }
   }
 
