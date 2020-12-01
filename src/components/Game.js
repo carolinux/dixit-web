@@ -1,26 +1,37 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { Button } from '@material-ui/core';
 import GameCard from './GameCard';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  }
+    fontFamily: 'Lobster',
+    color: 'white',
+    textAlign: 'center',
+    minHeight: 650
+  },
+  paper: {
+    color: theme.palette.text.secondary,
+  },
 }));
+
+const cards = [6, 7, 8, 9, 10];
 
 export default function Game() {
   const classes = useStyles();
-  const cards = [1, 2, 3, 4, 5, 6];
+
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        {cards.map(x =>
-          <Grid item xs={4}>
-            <GameCard card={x} />
-          </Grid>
-        )}
-      </Grid>
+      <h1>
+        Guess the first card!
+      </h1>
+      <div>
+        { cards.map(x =>
+          <Button key={x}>
+            <GameCard card={x} open={false}/>
+          </Button>) }
+      </div>
     </div>
   );
 }
