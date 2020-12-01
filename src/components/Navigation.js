@@ -20,6 +20,10 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import InfoIcon from '@material-ui/icons/Info';
 import HomeIcon from '@material-ui/icons/Home';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import Score from './Score';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
   listItems: {
     fontFamily: 'Lobster',
     paddingRight: 20
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 }));
 
@@ -52,13 +61,29 @@ export default function Navigation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const handleMenu = (event) => {
+  const onSidebarOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const onSidebarClose = () => {
     setAnchorEl(null);
   };
+
+  const [value, setValue] = React.useState('recents');
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
+
+  const handleOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
 
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
@@ -134,7 +159,7 @@ export default function Navigation() {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleMenu}
+              onClick={handleOpen}
               color="inherit">
               <AccountCircle />
             </IconButton>
@@ -151,10 +176,10 @@ export default function Navigation() {
                 horizontal: 'right',
               }}
               open={open}
-              onClose={handleClose}
+              onClose={onSidebarClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={onSidebarClose}>Profile</MenuItem>
+              <MenuItem onClick={onSidebarClose}>My account</MenuItem>
             </Menu>
           </div>
         </Toolbar>
@@ -168,6 +193,24 @@ export default function Navigation() {
         </Fragment>
       </div>
 
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={openDialog}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openDialog}>
+          <div className={classes.paper}>
+            <Score />
+          </div>
+        </Fade>
+      </Modal>
     </div>
   );
 }

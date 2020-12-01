@@ -8,8 +8,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     fontFamily: 'Lobster',
     color: 'white',
-    textAlign: 'center',
-    minHeight: 650
+    textAlign: 'center'
   },
   paper: {
     color: theme.palette.text.secondary,

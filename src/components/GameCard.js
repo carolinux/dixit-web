@@ -25,16 +25,19 @@ export default function GameCard(props) {
   
   return (
     <Button onClick={flipCard}>
-    { !!cardOpen && 
-      <Card raised className={classes.gameCard}>
-      <CardMedia
-        className={classes.gameCard}
-        image={ pictureUrl }
-      /></Card> }
-      { !cardOpen && <Card raised className={classes.gameCard}><CardMedia
-        className={classes.gameCard}
-        image={ defaultPictureUrl }
-      /></Card> }
+      { !!cardOpen && 
+        <Card raised className={classes.gameCard}>
+          <CardMedia
+            className={classes.gameCard}
+            image={ pictureUrl } />
+        </Card>
+      }
+      { !cardOpen &&
+        <Card raised className={classes.gameCard}>
+          <CardMedia className={classes.gameCard}
+            image={ defaultPictureUrl } />
+        </Card>
+      }
     </Button>
   );
 }
