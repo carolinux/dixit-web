@@ -1,8 +1,8 @@
 import React from 'react';
 import Store from './store/Store';
 import { makeStyles } from '@material-ui/core/styles';
-import AppNavigation from './AppNavigation';
-import TopNavigation from './TopNavigation';
+import AppContainer from './AppContainer';
+import Navigation from './Navigation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -15,8 +15,8 @@ function App() {
   return (
     <Store>
       <div className={classes.root}>
-        <TopNavigation />
-        <AppNavigation />
+        <Navigation />
+        <AppContainer />
       </div>
     </Store>
   );
