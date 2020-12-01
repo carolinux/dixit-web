@@ -1,72 +1,173 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import PersonIcon from '@material-ui/icons/Person';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Score from './Score';
+import InfoIcon from '@material-ui/icons/Info';
+import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  root: {
+    flexGrow: 1,
   },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+    fontFamily: 'Lobster',
+  },
+  topBar: {
+    background: '#3f51b505'
+  },
+  list: {
+    width: 250
+  },
+  fullList: {
+    width: 'auto',
+  },
+  listItems: {
+    fontFamily: 'Lobster',
+    paddingRight: 20
   }
 }));
 
 export default function Navigation() {
-  const [value, setValue] = React.useState('recents');
-  const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setAnchorEl(null);
   };
 
-  const classes = useStyles();
-  return (
-    <Fragment>
-      <BottomNavigation value={value} onChange={handleChange}>
-        <BottomNavigationAction label="User" value="user" icon={<PersonIcon />} />
-        <BottomNavigationAction label="Score" value="score" onClick={handleOpen} icon={<EqualizerIcon />} />
-        <BottomNavigationAction label="Hall of fame" value="globalScore" icon={<AccountBalanceIcon />} />
-      </BottomNavigation>
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <Score />
+  const toggleDrawer = (value) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setSidebarOpen(value);
+  };
+
+  const list = () => (
+    <div
+      className={classes.list + ' ' + classes.listItems}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List className={classes.listItems}>
+        <ListItem button>
+          <ListItemText>
+            <Typography variant="h4" className={classes.title}>
+              Dixit
+            </Typography>
+          </ListItemText>
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <ListItemIcon><EqualizerIcon /></ListItemIcon>
+          {'Score now'}
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon><AccountBalanceIcon /></ListItemIcon>
+          {'Hall of fame'}
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem button>
+          <ListItemIcon><SportsEsportsIcon /></ListItemIcon>
+          <a href='/rules'>{'How to play'}</a>
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon><PersonIcon /></ListItemIcon>
+          {'User info'}
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <ListItemIcon><HomeIcon /></ListItemIcon>
+          {'Home'}
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon><InfoIcon /></ListItemIcon>
+          {'About'}
+        </ListItem>
+      </List>
+    </div>
+  );
+
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" className={classes.topBar}>
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+            onClick={toggleDrawer(true)}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h4" className={classes.title}>
+            Dixit
+          </Typography>
+          <div>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+            </Menu>
           </div>
-        </Fade>
-      </Modal>
-    </Fragment>
+        </Toolbar>
+      </AppBar>
+
+      <div>
+        <Fragment key={'left'}>
+          <Drawer anchor={'left'} open={sidebarOpen} onClose={toggleDrawer('left', false)}>
+            {list('left')}
+          </Drawer>
+        </Fragment>
+      </div>
+
+    </div>
   );
 }
