@@ -68,28 +68,28 @@ export default function Login() {
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
-        <Grid container justify="center" spacing={2}>
+        <Grid container justify='center' spacing={2}>
           <Grid item>
             <Paper className={classes.paper}>
-              <Typography variant="h4" className={classes.title}>
+              <Typography variant='h4' className={classes.title}>
                 Choose a name & enter the game!
               </Typography>
               { !roomFull && 
               <Fragment>
-                <form noValidate autoComplete="off" className={classes.form}>
-                  <TextField id="outlined-basic" label="Player name" variant="outlined" onChange={updateName} />
+                <form noValidate autoComplete='off' className={classes.form}>
+                  <TextField id='outlined-basic' label='Player name' variant='outlined' onChange={updateName} />
                 </form>
                 { !!usedName && 
-                  <Typography variant="h6" className={classes.title}>
+                  <Typography variant='h6' className={classes.title}>
                     Someone is using already this name...
                   </Typography>
                 }
-                <Button size="small" color="primary" onClick={addPlayer}>
+                <Button size='small' color='primary' onClick={addPlayer}>
                   I'm ready!
                 </Button>
               </Fragment>  }
               { !!roomFull &&
-                <Typography variant="h5" className={classes.title}>
+                <Typography variant='h5' className={classes.title}>
                   The room is full...
                 </Typography> }
             </Paper>

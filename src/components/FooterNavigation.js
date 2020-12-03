@@ -44,14 +44,14 @@ export default function FooterNavigation() {
   return (
     <Fragment>
       <BottomNavigation value={value} onChange={handleChange}>
-        <BottomNavigationAction label="User" value="user" icon={<PersonIcon />} />
-        <BottomNavigationAction label="Score" value="score" onClick={handleOpen} icon={<EqualizerIcon />} />
-        <BottomNavigationAction label="Hall of fame" value="globalScore" icon={<AccountBalanceIcon />} />
+        <BottomNavigationAction label='User' value='user' icon={<PersonIcon />} />
+        <BottomNavigationAction label='Score' value='score' onClick={handleOpen} icon={<EqualizerIcon />} />
+        <BottomNavigationAction label='Hall of fame' value='globalScore' icon={<AccountBalanceIcon />} />
       </BottomNavigation>
 
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
         className={classes.modal}
         open={open}
         onClose={handleClose}

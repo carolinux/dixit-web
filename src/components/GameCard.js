@@ -125,8 +125,8 @@ export default function GameCard(props) {
       <span className={classes.imageBackdrop} />
       { !playerHasTurn && <span className={classes.imageButton}>
         <Typography
-          component="span"
-          color="inherit"
+          component='span'
+          color='inherit'
           className={classes.imageTitle}
         >
           {'Vote'}

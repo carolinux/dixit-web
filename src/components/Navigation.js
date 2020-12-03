@@ -96,14 +96,14 @@ const Navigation = () => {
   const list = () => (
     <div
       className={classes.list + ' ' + classes.listItems}
-      role="presentation"
+      role='presentation'
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
       <List className={classes.listItems}>
         <ListItem button>
           <ListItemText>
-            <Typography variant="h4" className={classes.title}>
+            <Typography variant='h4' className={classes.title}>
               Dixit
             </Typography>
           </ListItemText>
@@ -143,26 +143,26 @@ const Navigation = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.topBar}>
+      <AppBar position='static' className={classes.topBar}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+          <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'
             onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant='h4' className={classes.title}>
             Dixit
           </Typography>
           <div>
             <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
               onClick={handleOpen}
-              color="inherit">
+              color='inherit'>
               <AccountCircle />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorEl}
               anchorOrigin={{
                 vertical: 'top',
@@ -192,8 +192,8 @@ const Navigation = () => {
       </div>
 
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
         className={classes.modal}
         open={openDialog}
         onClose={handleClose}
