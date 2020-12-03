@@ -15,6 +15,14 @@ const Reducer = (state, action) => {
         playersCounter: state.playersCounter+1,
         players: {...state.players, ...playerToBeAdded}
       };
+
+    case 'SELECT_CARD':
+      return {
+        ...state,
+        selectedCard: action.payload,
+        cardsPlayed: [...state.cardsPlayed, action.payload]
+      };
+
     default:
       return state;
   }
