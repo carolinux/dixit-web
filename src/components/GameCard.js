@@ -77,16 +77,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GameCard(props) {
-  const { card, open } = { ...props };
+  const { card, open, playerHasTurn } = { ...props };
   const classes = useStyles();
   const pictureUrl = `url(${`/resources/pictures/cards/${card}.jpg`})`;
   const defaultPictureUrl = `url(${`./resources/pictures/cards/0.jpg`})`;
   const [cardOpen, setCardOpen] = React.useState(open);
   const [cardPicture, setCardPicture] = React.useState(defaultPictureUrl);
   
-  // TODO: Get this value from API
-  const playerHasTurn = false;
-
   const vote = () => {
     console.log('Voting...')
       // TODO: Implement voting
@@ -96,7 +93,7 @@ export default function GameCard(props) {
     if(!!playerHasTurn) { 
       setCardOpen(!cardOpen)
     } else {
-      // TODO: Implement voting
+      // TODO: Implement voting: POST request to the API
       vote();
     }
   }

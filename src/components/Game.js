@@ -1,4 +1,5 @@
 import React from 'react';
+import { Context } from './store/Store';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import GameCard from './GameCard';
@@ -15,10 +16,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [6, 7, 8, 9, 10];
-
 export default function Game() {
   const classes = useStyles();
+  const [cards, setCards] = React.useState([]);
+
+  // Use global state
+  const [state, setState] = React.useContext(Context);
+
+  // TODO: This does not work; in any case it should be done through the API
+  React.useEffect(() => {
+    setCards([...state.cardsPlayed])
+  },[state])
 
   return (
     <div className={classes.root}>

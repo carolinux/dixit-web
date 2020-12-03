@@ -16,9 +16,9 @@ export default function HandCard(props) {
   const classes = useStyles();
 
   return (
-    <Card raised className={classes.gameCard}>
+    <Card raised className={ classes.gameCard }>
       <CardMedia
-        className={classes.gameCard}
+        className={ classes.gameCard }
         image={ pictureUrl } />
     </Card>
   );
