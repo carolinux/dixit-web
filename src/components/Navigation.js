@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -56,10 +57,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Navigation() {
+const Navigation = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const open = Boolean(anchorEl);
+  let history = useHistory();
 
   const onSidebarOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,13 +71,6 @@ export default function Navigation() {
 
   const onSidebarClose = () => {
     setAnchorEl(null);
-  };
-
-  const [value, setValue] = React.useState('recents');
-  const [openDialog, setOpenDialog] = React.useState(false);
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
   };
 
   const handleOpen = () => {
@@ -84,15 +81,17 @@ export default function Navigation() {
     setOpenDialog(false);
   };
 
-
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
-
   const toggleDrawer = (value) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
     setSidebarOpen(value);
   };
+
+  const goToPath = () => {
+    // console.log(route)
+    history.push('/rules')
+  }
 
   const list = () => (
     <div
@@ -121,9 +120,9 @@ export default function Navigation() {
       </List>
       <Divider />
       <List>
-        <ListItem button>
+        <ListItem button onClick={goToPath}>
           <ListItemIcon><SportsEsportsIcon /></ListItemIcon>
-          <a href='/rules'>{'How to play'}</a>
+          {'How to play'}
         </ListItem>
         <ListItem button>
           <ListItemIcon><PersonIcon /></ListItemIcon>
@@ -141,7 +140,6 @@ export default function Navigation() {
       </List>
     </div>
   );
-
 
   return (
     <div className={classes.root}>
@@ -214,3 +212,5 @@ export default function Navigation() {
     </div>
   );
 }
+
+export default Navigation;

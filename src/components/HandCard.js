@@ -5,8 +5,8 @@ import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles(() => ({
   gameCard: {
-    width: 240,
-    height: 350,
+    width: 140,
+    height: 250,
   }
 }));
 

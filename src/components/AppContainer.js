@@ -8,6 +8,7 @@ import Game from './Game';
 import Hand from './Hand';
 import Rules from './Rules';
 import Login from './Login';
+import Board from './Board';
 
 function AppContainer() {
   return (
@@ -21,6 +22,11 @@ function AppContainer() {
         <Route path='/rules'>
           <Grid item xs={12}>
             <Rules />
+          </Grid>
+        </Route>
+        <Route path='/board'>
+          <Grid item xs={12}>
+            <Board />
           </Grid>
         </Route>
         <Route path='/login'>
