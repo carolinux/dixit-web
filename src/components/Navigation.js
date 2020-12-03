@@ -122,21 +122,23 @@ const Navigation = () => {
             {'How to play'}
           </ListItem>
         </a>
-        <ListItem button>
+        <ListItem>
           <ListItemIcon><PersonIcon /></ListItemIcon>
           {'User info'}
         </ListItem>
         <Divider />
         <a href='/board' className={classes.links}>
-          <ListItem button>
+          <ListItem>
             <ListItemIcon><HomeIcon /></ListItemIcon>
             {'Home'}
           </ListItem>
         </a>
-        <ListItem button>
-          <ListItemIcon><InfoIcon /></ListItemIcon>
-          {'About'}
-        </ListItem>
+        <a href='/about' className={classes.links}>
+          <ListItem>
+            <ListItemIcon><InfoIcon /></ListItemIcon>
+            {'About'}
+          </ListItem>
+        </a>
       </List>
     </div>
   );

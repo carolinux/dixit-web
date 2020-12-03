@@ -14,24 +14,20 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-export default function Rules() {
+export default function About() {
   const classes = useStyles();
   const texts = getTexts();
 
   return (
     <div className={classes.root}>
       <Typography variant='h5' className={classes.title}>
-        {texts.rules.title}
+        {texts.about.title}
       </Typography>
       <Typography variant='h5' className={classes.title}>
         {texts.divider}
       </Typography>
-      <br />
       <Typography variant='h6' className={classes.title}>
-        {texts.rules.description}
-      </Typography>
-      <Typography variant='h6' className={classes.title}>
-        <a href='/board'>{texts.rules.play}</a>
+        {texts.about.description}
       </Typography>
     </div>
   );
