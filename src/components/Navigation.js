@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -54,16 +53,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  links: {
+    textDecoration: 'none'
   }
 }));
 
 const Navigation = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openDialog, setOpenDialog] = React.useState(false);
+  const [openScore, setOpenScore] = React.useState(false);
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const open = Boolean(anchorEl);
-  let history = useHistory();
 
   const onSidebarOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -73,14 +74,6 @@ const Navigation = () => {
     setAnchorEl(null);
   };
 
-  const handleOpen = () => {
-    setOpenDialog(true);
-  };
-
-  const handleClose = () => {
-    setOpenDialog(false);
-  };
-
   const toggleDrawer = (value) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -88,9 +81,12 @@ const Navigation = () => {
     setSidebarOpen(value);
   };
 
-  const goToPath = () => {
-    // console.log(route)
-    history.push('/rules')
+  const showScore = () => {
+    setOpenScore(true);
+  }
+
+  const hideScore = () => {
+    setOpenScore(false);
   }
 
   const list = () => (
@@ -109,7 +105,7 @@ const Navigation = () => {
           </ListItemText>
         </ListItem>
         <Divider />
-        <ListItem button>
+        <ListItem button onClick={showScore}>
           <ListItemIcon><EqualizerIcon /></ListItemIcon>
           {'Score now'}
         </ListItem>
@@ -120,10 +116,12 @@ const Navigation = () => {
       </List>
       <Divider />
       <List>
-        <ListItem button onClick={goToPath}>
-          <ListItemIcon><SportsEsportsIcon /></ListItemIcon>
-          {'How to play'}
-        </ListItem>
+        <a href='/rules' className={classes.links}>
+          <ListItem>
+            <ListItemIcon><SportsEsportsIcon /></ListItemIcon>
+            {'How to play'}
+          </ListItem>
+        </a>
         <ListItem button>
           <ListItemIcon><PersonIcon /></ListItemIcon>
           {'User info'}
@@ -157,7 +155,7 @@ const Navigation = () => {
               aria-label='account of current user'
               aria-controls='menu-appbar'
               aria-haspopup='true'
-              onClick={handleOpen}
+              onClick={onSidebarOpen}
               color='inherit'>
               <AccountCircle />
             </IconButton>
@@ -183,27 +181,25 @@ const Navigation = () => {
         </Toolbar>
       </AppBar>
 
-      <div>
-        <Fragment key={'left'}>
-          <Drawer anchor={'left'} open={sidebarOpen} onClose={toggleDrawer('left', false)}>
-            {list('left')}
-          </Drawer>
-        </Fragment>
-      </div>
+      <Fragment>
+        <Drawer open={sidebarOpen} onClose={toggleDrawer(false)}>
+          {list()}
+        </Drawer>
+      </Fragment>
 
       <Modal
         aria-labelledby='transition-modal-title'
         aria-describedby='transition-modal-description'
         className={classes.modal}
-        open={openDialog}
-        onClose={handleClose}
+        open={openScore}
+        onClose={hideScore}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={openDialog}>
+        <Fade in={openScore}>
           <div className={classes.paper}>
             <Score />
           </div>

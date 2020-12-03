@@ -17,6 +17,11 @@ export const getTexts = (props) => {
     whoseTurn: {
       currentPlayer: `It's the turn of ${currentPlayer} to play.`,
       yourTurn: 'It\'s your turn to play!'
+    },
+    rules: {
+      title: 'How to play Dixit',
+      subtitle: '..........................................',
+      description: 'Once upon a time, in a land far far away, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled... Enjoy the game!',
     }
   }
 
