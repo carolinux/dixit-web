@@ -44,9 +44,8 @@ export default function Hand() {
     openDialog();
   }
   const completeSelection = () => {
-    console.log(state)
     setState({ type: 'SELECT_CARD', payload: cardToSelect });
-    openDialog();
+    closeDialog();
   }
 
   return (
