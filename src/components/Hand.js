@@ -1,4 +1,5 @@
 import React from 'react';
+import { Context } from './store/Store';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -22,16 +23,31 @@ const useStyles = makeStyles(() => ({
 const cards = [1, 2, 3, 4, 5, 6];
 export default function Hand() {
   const classes = useStyles();
-  const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [yourTurn, setYourTurn] = React.useState(true);
-
-  const selectCardDialogOpen = () => {
-    setDialogOpen(true);
+  const [open, setOpen] = React.useState(false);
+  const [yourTurn, setYourTurn] = React.useState(false);
+  const [cardToSelect, setCardToSelect] = React.useState(undefined);
+  const question = yourTurn ? 'What is your phrase?' : 'Sure to play this card?';
+  
+  // Use global state
+  const [state, setState] = React.useContext(Context);
+  
+  const openDialog = () => {
+    setOpen(true);
   };
 
-  const selectCardDialogClose = () => {
-    setDialogOpen(false);
+  const closeDialog = () => {
+    setOpen(false);
   };
+
+  const startSelection = (card) => {
+    !!card && setCardToSelect(card);
+    openDialog();
+  }
+  const completeSelection = () => {
+    console.log(state)
+    setState({ type: 'SELECT_CARD', payload: cardToSelect });
+    openDialog();
+  }
 
   return (
     <div>
@@ -45,27 +61,27 @@ export default function Hand() {
         It's your turn to play! Select a card...!
       </Typography>}
       {cards.map(x =>
-        <Button key={x} onClick={selectCardDialogOpen} disabled={!yourTurn}>
+        <Button key={x} onClick={() => startSelection(x)}>
           <HandCard card={x} />
         </Button>)}
 
         <Dialog
-          open={dialogOpen}
-          onClose={selectCardDialogClose}
+          open={open}
+          onClose={closeDialog}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-        <DialogTitle id="alert-dialog-title">{'Add a phrase about this card ;)'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{question}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          { yourTurn && <DialogContentText id="alert-dialog-description">
             <TextField label="Type a phrase about this card..." fullWidth />
-          </DialogContentText>
+          </DialogContentText> }
         </DialogContent>
         <DialogActions>
-          <Button onClick={selectCardDialogClose} color="primary">
+          <Button onClick={closeDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={selectCardDialogClose} color="primary" autoFocus>
+          <Button onClick={completeSelection} color="primary" autoFocus>
             Select
           </Button>
         </DialogActions>
