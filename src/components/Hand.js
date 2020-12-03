@@ -59,9 +59,9 @@ export default function Hand() {
       { !!yourTurn && <Typography variant="h6" className={classes.title}>
         It's your turn to play! Select a card...!
       </Typography>}
-      {cards.map(x =>
-        <Button key={x} onClick={() => startSelection(x)}>
-          <HandCard card={x} />
+      {cards.map(card =>
+        <Button key={card} onClick={() => startSelection(card)}>
+          <HandCard card={card} />
         </Button>)}
 
         <Dialog
