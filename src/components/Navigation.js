@@ -127,10 +127,12 @@ const Navigation = () => {
           {'User info'}
         </ListItem>
         <Divider />
-        <ListItem button>
-          <ListItemIcon><HomeIcon /></ListItemIcon>
-          {'Home'}
-        </ListItem>
+        <a href='/board' className={classes.links}>
+          <ListItem button>
+            <ListItemIcon><HomeIcon /></ListItemIcon>
+            {'Home'}
+          </ListItem>
+        </a>
         <ListItem button>
           <ListItemIcon><InfoIcon /></ListItemIcon>
           {'About'}

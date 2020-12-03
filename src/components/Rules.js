@@ -30,6 +30,9 @@ export default function Rules() {
       <Typography variant='h6' className={classes.title}>
         {texts.rules.description}
       </Typography>
+      <Typography variant='h6' className={classes.title}>
+        <a href='/board'>{texts.rules.play}</a>
+      </Typography>
     </div>
   );
 }

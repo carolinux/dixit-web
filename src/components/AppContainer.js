@@ -17,6 +17,9 @@ function AppContainer() {
         <Route path='/rules'>
           <Rules />
         </Route>
+        <Route path='/'>
+          <Rules />
+        </Route>
       </Switch>
     </Router>
   );
