@@ -31,7 +31,7 @@ export default function Rules() {
         {texts.rules.description}
       </Typography>
       <Typography variant='h6' className={classes.title}>
-        <a href='/board'>{texts.rules.play}</a>
+        <a href='/login'>{texts.rules.play}</a>
       </Typography>
     </div>
   );
