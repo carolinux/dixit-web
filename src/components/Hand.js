@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import HandCard from './HandCard';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
@@ -20,10 +22,14 @@ const useStyles = makeStyles(() => ({
   },
   dialog: {
     fontFamily: 'Lobster',
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingTop: 20
   },
   media: {
     height: 400
+  },
+  controls: {
+    justifyContent: 'center'
   }
 }));
 
@@ -97,12 +103,12 @@ export default function Hand() {
           </DialogContentText>
         </DialogContent> }
 
-        <DialogActions>
-          <Button onClick={closeDialog} color='primary'>
-            {texts.cardSelectionDialog.controls.cancel}
+        <DialogActions className={classes.controls}>
+          <Button onClick={closeDialog} color='secondary'>
+            <ClearIcon />
           </Button>
-          <Button onClick={completeSelection} color='primary'>
-            {texts.cardSelectionDialog.controls.select}
+          <Button onClick={completeSelection} color='secondary'>
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
