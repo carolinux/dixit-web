@@ -56,7 +56,7 @@ export default function Login() {
     }
     if(!!playerName){
       setState({type: 'ADD_PLAYER', payload: playerName});
-      history.push('/hand');
+      history.push('/board');
     }
   }
 
