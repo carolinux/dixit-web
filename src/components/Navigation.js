@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Drawer from '@material-ui/core/Drawer';
@@ -18,6 +17,7 @@ import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import PersonIcon from '@material-ui/icons/Person';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined';
 import InfoIcon from '@material-ui/icons/Info';
 import HomeIcon from '@material-ui/icons/Home';
 import Modal from '@material-ui/core/Modal';
@@ -156,13 +156,14 @@ const Navigation = () => {
           </Typography>
           <div>
             <IconButton
-              aria-label='account of current user'
+              aria-label='start game'
               aria-controls='menu-appbar'
               aria-haspopup='true'
               onClick={onSidebarOpen}
               color='inherit'>
-              <AccountCircle />
+              <PlayCircleFilledWhiteOutlinedIcon />
             </IconButton>
+
             <Menu
               id='menu-appbar'
               anchorEl={anchorEl}
@@ -178,8 +179,7 @@ const Navigation = () => {
               open={open}
               onClose={onSidebarClose}
             >
-              <MenuItem onClick={onSidebarClose}>Profile</MenuItem>
-              <MenuItem onClick={onSidebarClose}>My account</MenuItem>
+              <MenuItem onClick={onSidebarClose}>Start the game!</MenuItem>
             </Menu>
           </div>
         </Toolbar>

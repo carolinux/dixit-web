@@ -4,11 +4,12 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CardsPlayed from './CardsPlayed';
 import Hand from './Hand';
+import Players from './Players';
 
 const useStyles = makeStyles((theme) => ({
   cardsPlayed: {
     minHeight: 270
-  },
+  }
 }));
 
 export default function Board() {
@@ -30,11 +31,13 @@ export default function Board() {
         <Grid item xs={12} className={classes.cardsPlayed}>
         { !boardClean && <CardsPlayed /> }
         </Grid>
-        <Grid item xs={1} sm={1}></Grid>
-          <Grid item xs={10} sm={10}>
+        <Grid item xs={2} sm={2}>
+          <Players />
+        </Grid>
+          <Grid item xs={8} sm={10}>
             <Hand />
           </Grid>
-        <Grid item xs={1} sm={1}></Grid>
+        <Grid item xs={2} sm={2}></Grid>
       </Grid> 
     </Container>
   );

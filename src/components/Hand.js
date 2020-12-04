@@ -10,6 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -20,6 +21,9 @@ const useStyles = makeStyles(() => ({
   dialog: {
     fontFamily: 'Lobster',
     textAlign: 'center'
+  },
+  media: {
+    height: 400
   }
 }));
 
@@ -63,30 +67,33 @@ export default function Hand() {
 
   return (
     <Fragment>
-     <Typography variant='h4' className={classes.title}>
+      { cards.map(card =>
+        <Button key={card} onClick={() => startSelection(card)}>
+          <HandCard card={card} />
+        </Button>)
+      }
+      <Typography variant='h4' className={classes.title}>
         { texts.yourCards }
       </Typography>
       <Typography variant='h4' className={classes.title}>
         { whoseTurnMessage }
       </Typography>
 
-      { cards.map(card =>
-        <Button key={card} onClick={() => startSelection(card)}>
-          <HandCard card={card} />
-        </Button>)
-      }
-
       <Dialog
         open={open}
         onClose={closeDialog}>
 
+        <CardMedia
+            className={classes.media}
+            image={`./resources/pictures/cards/${cardToSelect}.jpg` } />
+        
         <Typography variant='h6' className={classes.dialog}>
           { question }
         </Typography>
-        
+
         { yourTurn && <DialogContent>
           <DialogContentText>
-            <TextField label={question} fullWidth />
+            <TextField fullWidth />
           </DialogContentText>
         </DialogContent> }
 
