@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import axios from 'axios';
 import { Context } from './store/Store';
 import { makeStyles } from '@material-ui/core/styles';
 import { getTexts } from './resources/Texts';
@@ -7,9 +8,12 @@ import Button from '@material-ui/core/Button';
 import HandCard from './HandCard';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -19,31 +23,53 @@ const useStyles = makeStyles(() => ({
   },
   dialog: {
     fontFamily: 'Lobster',
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingTop: 20
+  },
+  media: {
+    height: 400,
+    width: 300
+  },
+  controls: {
+    justifyContent: 'center'
   }
 }));
 
-export default function Hand() {
-  // TODO: Get cards from the API
-  const cards = [1, 2, 3, 4, 5, 6];
-
+export default function Hand(props) {
+  const { apiUrl } = { ...props };
+  const playerName = 'George';
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [cards, setCards] = React.useState([]);
   const [yourTurn, setYourTurn] = React.useState(true);
   const [cardToSelect, setCardToSelect] = React.useState(undefined);
-  
+  const [phrase, setPhrase] = React.useState('');
+  const [showMyCards, setShowMyCards] = React.useState(true);
+  const [formError, setFormError] = React.useState(false);
+
+  // Fetch cards per player
+  React.useEffect(() => {
+    const fetchData = async () => {
+      axios.get(`${apiUrl}/cards?player=${playerName}`)
+        .then(res => {
+          const data = res && res.data;
+          console.log(data)
+          setCards(data);
+        })
+    };
+    fetchData();
+  }, []);
+
   // TODO: Get current player from the API
   const currentPlayer = 'George';
-  const texts = getTexts({currentPlayer});
+  const texts = getTexts({ currentPlayer });
 
   const question = yourTurn ? texts.cardSelectionDialog.question.mainPlayer
-        : texts.cardSelectionDialog.question.otherPlayers;
+    : texts.cardSelectionDialog.question.otherPlayers;
 
-  const whoseTurnMessage = yourTurn ? texts.whoseTurn.currentPlayer : texts.whoseTurn.yourTurn;
-  
   // Use global state
   const [state, setState] = React.useContext(Context);
-  
+
   const openDialog = () => {
     setOpen(true);
   };
@@ -57,49 +83,70 @@ export default function Hand() {
     openDialog();
   }
   const completeSelection = () => {
-    setState({ type: 'SELECT_CARD', payload: cardToSelect });
-    closeDialog();
+    if (!!phrase) {
+      setFormError(false);
+      console.log('Phrase', phrase)
+      setState({ type: 'SELECT_CARD', payload: cardToSelect });
+      setPhrase('');
+      closeDialog();
+
+      const postData = async () => {
+        axios.post(`${apiUrl}/playedCards`, { card: cardToSelect, phrase: phrase })
+          .then(res => {
+            setShowMyCards(false);
+          })
+      };
+      postData();
+    } else {
+      setFormError(true);
+    }
+  }
+
+  const addPhrase = (event) => {
+    const value = event && event.target && event.target.value;
+    setPhrase(value);
   }
 
   return (
     <Fragment>
-     <Typography variant='h4' className={classes.title}>
-        { texts.yourCards }
-      </Typography>
-      <Typography variant='h4' className={classes.title}>
-        { whoseTurnMessage }
-      </Typography>
+      { showMyCards && <Fragment>
+        {cards.map((card, index) =>
+          <Button key={card} onClick={() => startSelection(card)}>
+            <HandCard card={card} rotation={-cards.length/2-index*10} />
+          </Button>)
+        }
 
-      { cards.map(card =>
-        <Button key={card} onClick={() => startSelection(card)}>
-          <HandCard card={card} />
-        </Button>)
-      }
+        <Dialog
+          open={open}
+          onClose={closeDialog}>
 
-      <Dialog
-        open={open}
-        onClose={closeDialog}>
+          <CardMedia
+            className={classes.media}
+            image={`./resources/pictures/cards/${cardToSelect}.jpg`} />
 
-        <Typography variant='h6' className={classes.dialog}>
-          { question }
-        </Typography>
-        
-        { yourTurn && <DialogContent>
-          <DialogContentText>
-            <TextField label={question} fullWidth />
-          </DialogContentText>
-        </DialogContent> }
+          <Typography variant='h6' className={classes.dialog}>
+            { question }
+          </Typography>
 
-        <DialogActions>
-          <Button onClick={closeDialog} color='primary'>
-            {texts.cardSelectionDialog.controls.cancel}
-          </Button>
-          <Button onClick={completeSelection} color='primary'>
-            {texts.cardSelectionDialog.controls.select}
-          </Button>
-        </DialogActions>
-      </Dialog>
+          { yourTurn && <DialogContent>
+            <DialogContentText>
+              <TextField onChange={addPhrase} fullWidth
+                helperText='Describe your card!'
+                error={formError}
+              />
+            </DialogContentText>
+          </DialogContent>}
 
+          <DialogActions className={classes.controls}>
+            <Button onClick={closeDialog} color='secondary'>
+              <ClearIcon />
+            </Button>
+            <Button onClick={completeSelection} color='secondary'>
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Fragment>}
     </Fragment>
   );
 }

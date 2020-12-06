@@ -24,11 +24,14 @@ export default function Rules() {
         {texts.rules.title}
       </Typography>
       <Typography variant='h5' className={classes.title}>
-        {texts.rules.subtitle}
+        {texts.divider}
       </Typography>
       <br />
       <Typography variant='h6' className={classes.title}>
         {texts.rules.description}
+      </Typography>
+      <Typography variant='h6' className={classes.title}>
+        <a href='/login'>{texts.rules.play}</a>
       </Typography>
     </div>
   );

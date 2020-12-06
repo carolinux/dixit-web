@@ -4,14 +4,17 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CardsPlayed from './CardsPlayed';
 import Hand from './Hand';
+import Players from './Players';
+import Phrase from './Phrase';
 
 const useStyles = makeStyles((theme) => ({
   cardsPlayed: {
     minHeight: 270
-  },
+  }
 }));
 
-export default function Board() {
+export default function Board(props) {
+  const { apiUrl } = { ...props };
   const classes = useStyles();
   const [boardClean, setBoardClean] = React.useState(true);
 
@@ -26,16 +29,19 @@ export default function Board() {
 
   return (
     <Container>
-     <Grid container>
+      <Grid container>
         <Grid item xs={12} className={classes.cardsPlayed}>
-        { !boardClean && <CardsPlayed /> }
+          {!!boardClean && <CardsPlayed />}
         </Grid>
-        <Grid item xs={1} sm={1}></Grid>
-          <Grid item xs={10} sm={10}>
-            <Hand />
-          </Grid>
-        <Grid item xs={1} sm={1}></Grid>
-      </Grid> 
+        <Grid item xs={2} sm={2}>
+          <Players apiUrl={apiUrl} />
+        </Grid>
+        <Grid item xs={8} sm={10}>
+          <Phrase apiUrl={apiUrl} />
+          <Hand apiUrl={apiUrl} />
+        </Grid>
+        <Grid item xs={2} sm={2}></Grid>
+      </Grid>
     </Container>
   );
 }

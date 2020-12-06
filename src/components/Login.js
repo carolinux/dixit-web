@@ -1,7 +1,9 @@
 import React, { useState, useContext, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from './store/Store';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import { getTexts } from './resources/Texts';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -30,39 +32,53 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Login(props) {
+  const { players, apiUrl } = { ...props };
+  const texts = getTexts();
   const classes = useStyles();
+  
   const [playerName, setPlayerName] = useState('');
   const [usedName, setUsedName] = useState(false);
-  const [roomFull, setRoomFull] = useState(false);
+  const [formError, setFormError] = useState(false);
 
   // Use global state
   const [state, setState] = useContext(Context);
 
-  let history = useHistory();  
+  let history = useHistory();
 
   const addPlayer = () => {
-    const { players, playersCounter } = { ...state };
-    if(playersCounter>=5) {
-      setRoomFull(true);
-      return;
-    }
+    if (formError) { return }
+    const { players } = { ...state };
 
-    if(!!players[playerName]) {
+    if (!!players[playerName]) {
       setUsedName(true);
       return;
     } else {
       setUsedName(false);
     }
-    if(!!playerName){
-      setState({type: 'ADD_PLAYER', payload: playerName});
-      history.push('/hand');
+
+    if (!!playerName) {
+      setState({ type: 'ADD_PLAYER', payload: playerName });
+      const postData = async () => {
+        axios.post(`${apiUrl}/players`, { player: playerName })
+          .then(res => {
+            console.log(res.data);
+          })
+      };
+      postData();
+
+      history.push('/board');
     }
   }
 
   const updateName = (event) => {
     const name = event && event.target && event.target.value;
-    setPlayerName(name);
+    if (!name) {
+      setFormError(true);
+    } else {
+      setPlayerName(name);
+      setFormError(false);
+    }
   }
 
   return (
@@ -71,27 +87,34 @@ export default function Login() {
         <Grid container justify='center' spacing={2}>
           <Grid item>
             <Paper className={classes.paper}>
-              <Typography variant='h4' className={classes.title}>
-                Choose a name & enter the game!
+              {players.length < 6 &&
+                <Fragment className={classes.paper}>
+                  <Typography variant='h4' className={classes.title}>
+                    {texts.login.title}
               </Typography>
-              { !roomFull && 
-              <Fragment>
-                <form noValidate autoComplete='off' className={classes.form}>
-                  <TextField id='outlined-basic' label='Player name' variant='outlined' onChange={updateName} />
-                </form>
-                { !!usedName && 
-                  <Typography variant='h6' className={classes.title}>
-                    Someone is using already this name...
-                  </Typography>
-                }
-                <Button size='small' color='primary' onClick={addPlayer}>
-                  I'm ready!
+                  <Fragment>
+                    <form noValidate autoComplete='off' className={classes.form}>
+                      <TextField onChange={updateName}
+                        helperText={texts.login.question}
+                        error={formError}
+                      />
+                    </form>
+                    {!!usedName &&
+                      <Typography variant='h6' className={classes.title}>
+                        {texts.login.nameUsed}
+                      </Typography>
+                    }
+                    <Button size='small' color='primary' onClick={addPlayer}>
+                      {texts.login.ready}
                 </Button>
-              </Fragment>  }
-              { !!roomFull &&
-                <Typography variant='h5' className={classes.title}>
-                  The room is full...
-                </Typography> }
+                  </Fragment>
+                </Fragment>}
+
+              {players.length === 6 &&
+                <Typography variant='h4' className={classes.title}>
+                  {texts.login.fullGame}
+              </Typography>
+              }
             </Paper>
           </Grid>
         </Grid>
