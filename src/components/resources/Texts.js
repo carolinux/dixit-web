@@ -3,6 +3,7 @@ export const getTexts = (props) => {
   const { currentPlayer } = { ...props }
 
   const texts = {
+    title: 'Dixit',
     cardSelectionDialog: {
       question: {
         mainPlayer: 'What is your phrase?',
@@ -27,13 +28,21 @@ export const getTexts = (props) => {
       title: 'About this app',
       description: 'Lorem Ipsum bla bla bla...'
     },
-    divider: '......................................',
+    divider: '-',
     login: {
       title: 'Choose a name & enter the game!',
       question: 'What\'s your name?',
       ready: 'I\'m ready!',
       nameUsed: 'Someone is using already this name...',
       fullGame: 'The game is full...'
+    },
+    navigation: {
+      scoreNow: 'Score now',
+      hallOfFame: 'Hall of fame',
+      rules: 'How to play',
+      userInfo: 'User info',
+      home: 'Game',
+      about: 'About'
     }
   }
 

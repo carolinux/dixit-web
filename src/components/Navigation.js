@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { getTexts } from './resources/Texts';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navigation = () => {
   const classes = useStyles();
+  const texts = getTexts();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openScore, setOpenScore] = React.useState(false);
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -100,18 +102,18 @@ const Navigation = () => {
         <ListItem button>
           <ListItemText>
             <Typography variant='h4' className={classes.title}>
-              Dixit
+              {texts.title}
             </Typography>
           </ListItemText>
         </ListItem>
         <Divider />
         <ListItem button onClick={showScore}>
           <ListItemIcon><EqualizerIcon /></ListItemIcon>
-          {'Score now'}
+          {texts.navigation.scoreNow}
         </ListItem>
         <ListItem button>
           <ListItemIcon><AccountBalanceIcon /></ListItemIcon>
-          {'Hall of fame'}
+          {texts.navigation.hallOfFame}
         </ListItem>
       </List>
       <Divider />
@@ -119,24 +121,24 @@ const Navigation = () => {
         <a href='/rules' className={classes.links}>
           <ListItem>
             <ListItemIcon><SportsEsportsIcon /></ListItemIcon>
-            {'How to play'}
+            {texts.navigation.rules}
           </ListItem>
         </a>
         <ListItem>
           <ListItemIcon><PersonIcon /></ListItemIcon>
-          {'User info'}
+          {texts.navigation.userInfo}
         </ListItem>
         <Divider />
         <a href='/board' className={classes.links}>
           <ListItem>
             <ListItemIcon><HomeIcon /></ListItemIcon>
-            {'Home'}
+            {texts.navigation.home}
           </ListItem>
         </a>
         <a href='/about' className={classes.links}>
           <ListItem>
             <ListItemIcon><InfoIcon /></ListItemIcon>
-            {'About'}
+            {texts.navigation.about}
           </ListItem>
         </a>
       </List>
@@ -152,35 +154,12 @@ const Navigation = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant='h4' className={classes.title}>
-            Dixit
+            {texts.title}
           </Typography>
           <div>
-            <IconButton
-              aria-label='start game'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={onSidebarOpen}
-              color='inherit'>
+            <IconButton onClick={onSidebarOpen} color='inherit'>
               <PlayCircleFilledWhiteOutlinedIcon />
             </IconButton>
-
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={onSidebarClose}
-            >
-              <MenuItem onClick={onSidebarClose}>Start the game!</MenuItem>
-            </Menu>
           </div>
         </Toolbar>
       </AppBar>
