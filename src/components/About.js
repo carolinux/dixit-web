@@ -22,9 +22,7 @@ export default function About() {
     <div className={classes.root}>
       <Typography variant='h5' className={classes.title}>
         {texts.about.title}
-      </Typography>
-      <Typography variant='h5' className={classes.title}>
-        {texts.divider}
+        <hr />
       </Typography>
       <Typography variant='h6' className={classes.title}>
         {texts.about.description}

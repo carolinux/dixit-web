@@ -23,10 +23,18 @@ export default function Game() {
   // Use global state
   const [state, setState] = React.useContext(Context);
 
-  // TODO: This does not work; in any case it should be done through the API
+  // Fetch cards per player
   React.useEffect(() => {
-    setCards([...state.cardsPlayed])
-  },[state])
+    const fetchData = async () => {
+      axios.get(`http://localhost:5000/playedCards`)
+        .then(res => {
+          const data = res && res.data;
+          console.log(data)
+          setCards(data);
+        })
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className={classes.root}>

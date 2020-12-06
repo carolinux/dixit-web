@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import CardsPlayed from './CardsPlayed';
 import Hand from './Hand';
 import Players from './Players';
+import Phrase from './Phrase';
 
 const useStyles = makeStyles((theme) => ({
   cardsPlayed: {
@@ -27,18 +28,19 @@ export default function Board() {
 
   return (
     <Container>
-     <Grid container>
+      <Grid container>
         <Grid item xs={12} className={classes.cardsPlayed}>
-        { !boardClean && <CardsPlayed /> }
+          {!!boardClean && <CardsPlayed />}
         </Grid>
         <Grid item xs={2} sm={2}>
           <Players />
         </Grid>
-          <Grid item xs={8} sm={10}>
-            <Hand />
-          </Grid>
+        <Grid item xs={8} sm={10}>
+          <Phrase />
+          <Hand />
+        </Grid>
         <Grid item xs={2} sm={2}></Grid>
-      </Grid> 
+      </Grid>
     </Container>
   );
 }

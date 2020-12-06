@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import axios from 'axios';
 import { Context } from './store/Store';
 import { makeStyles } from '@material-ui/core/styles';
 import { getTexts } from './resources/Texts';
@@ -26,7 +27,8 @@ const useStyles = makeStyles(() => ({
     paddingTop: 20
   },
   media: {
-    height: 400
+    height: 400,
+    width: 300
   },
   controls: {
     justifyContent: 'center'
@@ -34,26 +36,39 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Hand() {
-  // TODO: Get cards from the API
-  const cards = [1, 2, 3, 4, 5, 6];
-
+  const playerName = 'George';
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [cards, setCards] = React.useState([]);
   const [yourTurn, setYourTurn] = React.useState(true);
   const [cardToSelect, setCardToSelect] = React.useState(undefined);
-  
+  const [phrase, setPhrase] = React.useState('');
+  const [showMyCards, setShowMyCards] = React.useState(true);
+  const [formError, setFormError] = React.useState(false);
+
+  // Fetch cards per player
+  React.useEffect(() => {
+    const fetchData = async () => {
+      axios.get(`http://localhost:5000/cards?player=${playerName}`)
+        .then(res => {
+          const data = res && res.data;
+          console.log(data)
+          setCards(data);
+        })
+    };
+    fetchData();
+  }, []);
+
   // TODO: Get current player from the API
   const currentPlayer = 'George';
-  const texts = getTexts({currentPlayer});
+  const texts = getTexts({ currentPlayer });
 
   const question = yourTurn ? texts.cardSelectionDialog.question.mainPlayer
-        : texts.cardSelectionDialog.question.otherPlayers;
+    : texts.cardSelectionDialog.question.otherPlayers;
 
-  const whoseTurnMessage = yourTurn ? texts.whoseTurn.currentPlayer : texts.whoseTurn.yourTurn;
-  
   // Use global state
   const [state, setState] = React.useContext(Context);
-  
+
   const openDialog = () => {
     setOpen(true);
   };
@@ -67,52 +82,70 @@ export default function Hand() {
     openDialog();
   }
   const completeSelection = () => {
-    setState({ type: 'SELECT_CARD', payload: cardToSelect });
-    closeDialog();
+    if (!!phrase) {
+      setFormError(false);
+      console.log('Phrase', phrase)
+      setState({ type: 'SELECT_CARD', payload: cardToSelect });
+      setPhrase('');
+      closeDialog();
+
+      const postData = async () => {
+        axios.post(`http://localhost:5000/playedCards`, { card: cardToSelect, phrase: phrase })
+          .then(res => {
+            setShowMyCards(false);
+          })
+      };
+      postData();
+    } else {
+      setFormError(true);
+    }
+  }
+
+  const addPhrase = (event) => {
+    const value = event && event.target && event.target.value;
+    setPhrase(value);
   }
 
   return (
     <Fragment>
-      { cards.map(card =>
-        <Button key={card} onClick={() => startSelection(card)}>
-          <HandCard card={card} />
-        </Button>)
-      }
-      <Typography variant='h4' className={classes.title}>
-        { texts.yourCards }
-      </Typography>
-      <Typography variant='h4' className={classes.title}>
-        { whoseTurnMessage }
-      </Typography>
+      { showMyCards && <Fragment>
+        {cards.map((card, index) =>
+          <Button key={card} onClick={() => startSelection(card)}>
+            <HandCard card={card} rotation={-cards.length/2-index*10} />
+          </Button>)
+        }
 
-      <Dialog
-        open={open}
-        onClose={closeDialog}>
+        <Dialog
+          open={open}
+          onClose={closeDialog}>
 
-        <CardMedia
+          <CardMedia
             className={classes.media}
-            image={`./resources/pictures/cards/${cardToSelect}.jpg` } />
-        
-        <Typography variant='h6' className={classes.dialog}>
-          { question }
-        </Typography>
+            image={`./resources/pictures/cards/${cardToSelect}.jpg`} />
 
-        { yourTurn && <DialogContent>
-          <DialogContentText>
-            <TextField fullWidth />
-          </DialogContentText>
-        </DialogContent> }
+          <Typography variant='h6' className={classes.dialog}>
+            { question }
+          </Typography>
 
-        <DialogActions className={classes.controls}>
-          <Button onClick={closeDialog} color='secondary'>
-            <ClearIcon />
-          </Button>
-          <Button onClick={completeSelection} color='secondary'>
-            <CheckIcon />
-          </Button>
-        </DialogActions>
-      </Dialog>
+          { yourTurn && <DialogContent>
+            <DialogContentText>
+              <TextField onChange={addPhrase} fullWidth
+                helperText='Describe your card!'
+                error={formError}
+              />
+            </DialogContentText>
+          </DialogContent>}
 
+          <DialogActions className={classes.controls}>
+            <Button onClick={closeDialog} color='secondary'>
+              <ClearIcon />
+            </Button>
+            <Button onClick={completeSelection} color='secondary'>
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Fragment>}
     </Fragment>
   );
 }

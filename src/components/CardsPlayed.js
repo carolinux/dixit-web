@@ -1,5 +1,5 @@
 import React from 'react';
-import { Context } from './store/Store';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import GameCard from './GameCard';
 
@@ -15,17 +15,26 @@ const useStyles = makeStyles(() => ({
 
 export default function CardsPlayed() {
   const classes = useStyles();
+  const [cards, setCards] = React.useState([]);
    
-  // Use global state
-  const [state, setState] = React.useContext(Context);
-  const cardsPlayed = state && state.cardsPlayed;
-
   // TODO: Get this value from the API
   const playerHasTurn = true;
 
+  // Fetch cards per player
+  React.useEffect(() => {
+    const fetchData = async () => {
+      axios.get(`http://localhost:5000/playedCards`)
+        .then(res => {
+          const data = res && res.data && res.data.cards;
+          setCards(data);
+        })
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className={classes.root}>
-      { cardsPlayed.map((card) => (<GameCard key={card} card={card} open={false} playerHasTurn />)) }
+      { cards.map((card) => (<GameCard key={card} card={card} open={false} playerHasTurn />)) }
     </div>
   )
 }

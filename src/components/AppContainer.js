@@ -5,12 +5,14 @@ import About from './About';
 import Login from './Login';
 import Board from './Board';
 
-function AppContainer() {
+function AppContainer(props) {
+  const { players } = { ...props };
+
   return (
     <Router>
       <Switch>
         <Route path='/login'>
-          <Login />
+          <Login players={players} />
         </Route>
         <Route path='/board'>
           <Board />
