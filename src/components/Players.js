@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -14,17 +15,24 @@ const useStyles = makeStyles(() => ({
 
 export default function Players(props) {
   const classes = useStyles();
+  const [players, setPlayers] = React.useState([]);
 
-  const players = [
-    { name: 'Eleni', hasTurn: true },
-    { name: 'Theodore', hasTurn: false },
-    { name: 'George', hasTurn: false }
-  ]
+  // Fetch players when component mounts
+  React.useEffect(() => {
+    const fetchData = async () => {
+      axios.get('http://localhost:5000/players')
+        .then(res => {
+          const data = res && res.data;
+          setPlayers(data);
+        })
+    };
+    fetchData();
+  }, []);
 
   return (
   <List>
     { players.map(player =>
-    <ListItem className={classes.players}>
+    <ListItem className={classes.players} key={player}>
       <ListItemIcon className={classes.players}>{ !!player.hasTurn && <SportsEsportsOutlinedIcon />}</ListItemIcon>
       {player.name} 
     </ListItem> )}
