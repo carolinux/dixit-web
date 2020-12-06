@@ -35,7 +35,8 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Hand() {
+export default function Hand(props) {
+  const { apiUrl } = { ...props };
   const playerName = 'George';
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -49,7 +50,7 @@ export default function Hand() {
   // Fetch cards per player
   React.useEffect(() => {
     const fetchData = async () => {
-      axios.get(`http://localhost:5000/cards?player=${playerName}`)
+      axios.get(`${apiUrl}/cards?player=${playerName}`)
         .then(res => {
           const data = res && res.data;
           console.log(data)
@@ -90,7 +91,7 @@ export default function Hand() {
       closeDialog();
 
       const postData = async () => {
-        axios.post(`http://localhost:5000/playedCards`, { card: cardToSelect, phrase: phrase })
+        axios.post(`${apiUrl}/playedCards`, { card: cardToSelect, phrase: phrase })
           .then(res => {
             setShowMyCards(false);
           })

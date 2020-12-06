@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Board() {
+export default function Board(props) {
+  const { apiUrl } = { ...props };
   const classes = useStyles();
   const [boardClean, setBoardClean] = React.useState(true);
 
@@ -33,11 +34,11 @@ export default function Board() {
           {!!boardClean && <CardsPlayed />}
         </Grid>
         <Grid item xs={2} sm={2}>
-          <Players />
+          <Players apiUrl={apiUrl} />
         </Grid>
         <Grid item xs={8} sm={10}>
-          <Phrase />
-          <Hand />
+          <Phrase apiUrl={apiUrl} />
+          <Hand apiUrl={apiUrl} />
         </Grid>
         <Grid item xs={2} sm={2}></Grid>
       </Grid>

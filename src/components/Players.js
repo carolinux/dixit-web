@@ -14,13 +14,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Players(props) {
+  const { apiUrl } = { ...props };
   const classes = useStyles();
   const [players, setPlayers] = React.useState([]);
 
   // Fetch players when component mounts
   React.useEffect(() => {
     const fetchData = async () => {
-      axios.get('http://localhost:5000/players')
+      axios.get(`${apiUrl}/players`)
         .then(res => {
           const data = res && res.data;
           setPlayers(data);

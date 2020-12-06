@@ -11,19 +11,19 @@ const useStyles = makeStyles(() => ({
     color: '#630e0e'
   },
   paper: {
-    height: 50,
-    // background: '#a48152',
+    height: 50
   }
 }));
 
-export default function Phrase() {
+export default function Phrase(props) {
+  const { apiUrl } = { ...props };
   const classes = useStyles();
   const [phrase, setPhrase] = React.useState('');
   
   // Fetch phrase
   React.useEffect(() => {
     const fetchData = async () => {
-      axios.get('http://localhost:5000/playedCards')
+      axios.get(`${apiUrl}/playedCards`)
         .then(res => {
           const data = res && res.data && res.data.phrase;
           console.log(data, res)

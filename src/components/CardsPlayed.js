@@ -13,7 +13,8 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function CardsPlayed() {
+export default function CardsPlayed(props) {
+  const { apiUrl } = { ...props };
   const classes = useStyles();
   const [cards, setCards] = React.useState([]);
    
@@ -23,7 +24,7 @@ export default function CardsPlayed() {
   // Fetch cards per player
   React.useEffect(() => {
     const fetchData = async () => {
-      axios.get(`http://localhost:5000/playedCards`)
+      axios.get(`${apiUrl}/playedCards`)
         .then(res => {
           const data = res && res.data && res.data.cards;
           setCards(data);

@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Game() {
+export default function Game(props) {
+  const { apiUrl } = {...props};
   const classes = useStyles();
   const [cards, setCards] = React.useState([]);
 
@@ -26,7 +27,7 @@ export default function Game() {
   // Fetch cards per player
   React.useEffect(() => {
     const fetchData = async () => {
-      axios.get(`http://localhost:5000/playedCards`)
+      axios.get(`${apiUrl}//playedCards`)
         .then(res => {
           const data = res && res.data;
           console.log(data)

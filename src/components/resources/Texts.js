@@ -27,7 +27,14 @@ export const getTexts = (props) => {
       title: 'About this app',
       description: 'Lorem Ipsum bla bla bla...'
     },
-    divider: '......................................'
+    divider: '......................................',
+    login: {
+      title: 'Choose a name & enter the game!',
+      question: 'What\'s your name?',
+      ready: 'I\'m ready!',
+      nameUsed: 'Someone is using already this name...',
+      fullGame: 'The game is full...'
+    }
   }
 
   return texts

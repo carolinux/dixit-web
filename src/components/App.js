@@ -15,11 +15,12 @@ const useStyles = makeStyles(() => ({
 function App() {
   const classes = useStyles();
   const [players, setPlayers] = React.useState([]);
+  const apiUrl = 'http://localhost:5000/';
 
   // Fetch players when component mounts
   React.useEffect(() => {
     const fetchData = async () => {
-      axios.get('http://localhost:5000/players')
+      axios.get(`${apiUrl}/players`)
         .then(res => {
           const data = res && res.data;
           setPlayers(data);
@@ -32,7 +33,7 @@ function App() {
     <Store>
       <div className={classes.root}>
         <Navigation />
-        <AppContainer players={players} />
+        <AppContainer players={players} apiUrl={apiUrl} />
       </div>
     </Store>
   );
