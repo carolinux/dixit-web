@@ -7,7 +7,7 @@ import Navigation from './Navigation';
 
 const useStyles = makeStyles(() => ({
   root: {
-    backgroundImage: `url(${'./resources/pictures/board.jpg'})`,
+    backgroundImage: `url(${'./resources/pictures/board.png'})`,
     minHeight: 750
   }
 }));
