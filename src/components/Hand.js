@@ -16,6 +16,9 @@ import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 
 const useStyles = makeStyles(() => ({
+  root: {
+    textAlign: 'center'
+  },
   title: {
     fontFamily: 'Lobster',
     textAlign: 'center',
@@ -36,7 +39,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Hand(props) {
-  const { apiUrl, hasTurn } = { ...props };
+  const { apiUrl, hasTurn, mainPlayer } = { ...props };
   const playerName = 'George';
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -83,22 +86,31 @@ export default function Hand(props) {
     openDialog();
   }
   const completeSelection = () => {
-    if (!!phrase) {
-      setFormError(false);
-      console.log('Phrase', phrase)
-      setState({ type: 'SELECT_CARD', payload: cardToSelect });
-      setPhrase('');
-      closeDialog();
-
+    if(!!mainPlayer) {
+      if (!!phrase) {
+        setFormError(false);
+        setState({ type: 'SELECT_CARD', payload: cardToSelect });
+        setPhrase('');
+        closeDialog();
+  
+        const postData = async () => {
+          axios.post(`${apiUrl}/playedCards`, { card: cardToSelect, phrase: phrase })
+            .then(res => {
+              setShowMyCards(false);
+            })
+        };
+        postData();
+      } else {
+        setFormError(true);
+      }
+    } else {
       const postData = async () => {
-        axios.post(`${apiUrl}/playedCards`, { card: cardToSelect, phrase: phrase })
+        axios.post(`${apiUrl}/playedCards`, { card: cardToSelect, mainPlayer: mainPlayer })
           .then(res => {
             setShowMyCards(false);
           })
       };
       postData();
-    } else {
-      setFormError(true);
     }
   }
 
@@ -109,8 +121,8 @@ export default function Hand(props) {
 
   return (
     <Fragment>
-      { showMyCards && <Fragment>
-        {cards.map((card, index) =>
+      { showMyCards && <div className={classes.root}>
+        {cards.map((card) =>
           <Button key={card} onClick={() => startSelection(card)}>
             <HandCard card={card} />
           </Button>)
@@ -124,29 +136,31 @@ export default function Hand(props) {
             className={classes.media}
             image={`./resources/pictures/cards/${cardToSelect}.jpg`} />
 
-          <Typography variant='h6' className={classes.dialog}>
-            { question }
-          </Typography>
+          { !!mainPlayer && <Fragment>
+            <Typography variant='h6' className={classes.dialog}>
+              {question}
+            </Typography>
 
-          { yourTurn && <DialogContent>
-            <DialogContentText>
-              <TextField onChange={addPhrase} fullWidth
-                helperText='Describe your card!'
-                error={formError}
-              />
-            </DialogContentText>
-          </DialogContent>}
+            <DialogContent>
+              <DialogContentText>
+                <TextField onChange={addPhrase} fullWidth
+                  helperText='Describe your card!'
+                  error={formError}
+                />
+              </DialogContentText>
+            </DialogContent>
+          </Fragment>}
 
           <DialogActions className={classes.controls}>
             <Button onClick={closeDialog} color='secondary'>
               <ClearIcon />
             </Button>
-            <Button onClick={completeSelection} color='secondary'>
+            <Button onClick={completeSelection} color='secondary' disabled={!hasTurn}>
               <CheckIcon />
             </Button>
           </DialogActions>
         </Dialog>
-      </Fragment>}
+      </div>}
     </Fragment>
   );
 }

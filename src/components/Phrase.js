@@ -26,7 +26,6 @@ export default function Phrase(props) {
       axios.get(`${apiUrl}/playedCards`)
         .then(res => {
           const data = res && res.data && res.data.phrase;
-          console.log(data, res)
           setPhrase(data);
         })
     };
