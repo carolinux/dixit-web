@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Hand(props) {
-  const { apiUrl } = { ...props };
+  const { apiUrl, hasTurn } = { ...props };
   const playerName = 'George';
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -112,7 +112,7 @@ export default function Hand(props) {
       { showMyCards && <Fragment>
         {cards.map((card, index) =>
           <Button key={card} onClick={() => startSelection(card)}>
-            <HandCard card={card} rotation={-cards.length/2-index*10} />
+            <HandCard card={card} />
           </Button>)
         }
 
