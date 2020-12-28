@@ -46,7 +46,7 @@ function App() {
     <Store>
       <div className={classes.root}>
         <Navigation />
-        <AppContainer players={players} apiUrl={apiUrl} hasTurn={hasTurn} mainPlayer={mainPlayer} />
+        <AppContainer apiUrl={apiUrl} hasTurn={hasTurn} mainPlayer={mainPlayer} />
       </div>
     </Store>
   );

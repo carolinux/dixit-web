@@ -90,6 +90,7 @@ export default function Hand(props) {
       axios.post(`${apiUrl}/playedCards`, { ...data })
         .then(res => {
           setShowMyCards(false);
+          setUserPlayed(true);
         })
     };
 
