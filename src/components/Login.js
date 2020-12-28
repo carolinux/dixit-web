@@ -91,7 +91,7 @@ export default function Login(props) {
         <Grid container justify='center' spacing={2}>
           <Grid item className={classes.paper}>
             {players.length < 6 &&
-              <Fragment className={classes.paper}>
+              <div className={classes.paper}>
                 <Typography variant='h4' className={classes.title}>
                   {texts.login.title}
                 </Typography>
@@ -112,7 +112,7 @@ export default function Login(props) {
                     {texts.login.ready}
                   </Button>
                 </Fragment>
-              </Fragment>}
+              </div>}
 
             {players.length === 6 &&
               <Typography variant='h4' className={classes.title}>
