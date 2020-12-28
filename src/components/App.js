@@ -15,25 +15,36 @@ const useStyles = makeStyles(() => ({
 function App() {
   const classes = useStyles();
   const [players, setPlayers] = React.useState([]);
+  const [hasTurn, setHasTurn] = React.useState(false);
   const apiUrl = 'http://localhost:5000/';
 
   // Fetch players when component mounts
   React.useEffect(() => {
-    const fetchData = async () => {
+    const fetchPlayersData = async () => {
       axios.get(`${apiUrl}/players`)
         .then(res => {
           const data = res && res.data;
           setPlayers(data);
         })
     };
-    fetchData();
+
+    const fetchTurnData = async () => {
+      axios.get(`${apiUrl}/hasTurn`)
+        .then(res => {
+          const data = res && res.data;
+          setHasTurn(data);
+        })
+    };
+
+    fetchPlayersData();
+    fetchTurnData();
   }, []);
 
   return (
     <Store>
       <div className={classes.root}>
         <Navigation />
-        <AppContainer players={players} apiUrl={apiUrl} />
+        <AppContainer players={players} apiUrl={apiUrl} hasTurn={hasTurn} />
       </div>
     </Store>
   );

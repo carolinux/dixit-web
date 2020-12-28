@@ -7,14 +7,14 @@ import Hand from './Hand';
 import Players from './Players';
 import Phrase from './Phrase';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   cardsPlayed: {
     minHeight: 270
   }
 }));
 
 export default function Board(props) {
-  const { apiUrl } = { ...props };
+  const { apiUrl, hasTurn } = { ...props };
   const classes = useStyles();
   const [boardClean, setBoardClean] = React.useState(true);
 
@@ -38,7 +38,7 @@ export default function Board(props) {
         </Grid>
         <Grid item xs={8} sm={10}>
           <Phrase apiUrl={apiUrl} />
-          <Hand apiUrl={apiUrl} />
+          <Hand apiUrl={apiUrl} hasTurn={hasTurn} />
         </Grid>
         <Grid item xs={2} sm={2}></Grid>
       </Grid>

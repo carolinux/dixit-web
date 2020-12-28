@@ -11,12 +11,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function HandCard(props) {
-  const { card, rotation } = { ...props };
+  const { card } = { ...props };
   const pictureUrl = `./resources/pictures/cards/${card}.jpg`;
   const classes = useStyles();
 
   return (
-    <Card raised className={ classes.cardContainer } style={{ transform: `rotate(${rotation}deg)` }}>
+    <Card raised className={ classes.cardContainer }>
       <CardMedia
         className={ classes.card }
         image={ pictureUrl } />
