@@ -86,31 +86,29 @@ export default function Hand(props) {
     openDialog();
   }
   const completeSelection = () => {
+    let playedData = { card: cardToSelect, mainPlayer: mainPlayer }
+
+    const postData = async (data) => {
+      axios.post(`${apiUrl}/playedCards`, { ...data })
+        .then(res => {
+          setShowMyCards(false);
+        })
+    };
+
     if(!!mainPlayer) {
       if (!!phrase) {
         setFormError(false);
         setState({ type: 'SELECT_CARD', payload: cardToSelect });
         setPhrase('');
         closeDialog();
-  
-        const postData = async () => {
-          axios.post(`${apiUrl}/playedCards`, { card: cardToSelect, phrase: phrase })
-            .then(res => {
-              setShowMyCards(false);
-            })
-        };
-        postData();
+
+        playedData = { ...playedData, phrase: phrase }
+        postData(playedData);
       } else {
         setFormError(true);
       }
     } else {
-      const postData = async () => {
-        axios.post(`${apiUrl}/playedCards`, { card: cardToSelect, mainPlayer: mainPlayer })
-          .then(res => {
-            setShowMyCards(false);
-          })
-      };
-      postData();
+      postData(playedData);
     }
   }
 
