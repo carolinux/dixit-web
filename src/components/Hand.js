@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
-import { Context } from './store/Store';
 import { makeStyles } from '@material-ui/core/styles';
 import { getTexts } from './resources/Texts';
 import TextField from '@material-ui/core/TextField';
@@ -42,16 +41,17 @@ export default function Hand(props) {
   const { apiUrl, hasTurn, mainPlayer } = { ...props };
   const playerName = 'George';
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [cards, setCards] = React.useState([]);
-  const [yourTurn, setYourTurn] = React.useState(true);
-  const [cardToSelect, setCardToSelect] = React.useState(undefined);
-  const [phrase, setPhrase] = React.useState('');
-  const [showMyCards, setShowMyCards] = React.useState(true);
-  const [formError, setFormError] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [cards, setCards] = useState([]);
+  const [cardsPlayed, setCardsPlayed] = useState([]);
+  const [yourTurn, setYourTurn] = useState(true);
+  const [cardToSelect, setCardToSelect] = useState(undefined);
+  const [phrase, setPhrase] = useState('');
+  const [showMyCards, setShowMyCards] = useState(true);
+  const [formError, setFormError] = useState(false);
 
   // Fetch cards per player
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       axios.get(`${apiUrl}/cards?player=${playerName}`)
         .then(res => {
@@ -70,9 +70,6 @@ export default function Hand(props) {
   const question = yourTurn ? texts.cardSelectionDialog.question.mainPlayer
     : texts.cardSelectionDialog.question.otherPlayers;
 
-  // Use global state
-  const [state, setState] = React.useContext(Context);
-
   const openDialog = () => {
     setOpen(true);
   };
@@ -85,6 +82,7 @@ export default function Hand(props) {
     !!card && setCardToSelect(card);
     openDialog();
   }
+
   const completeSelection = () => {
     let playedData = { card: cardToSelect, mainPlayer: mainPlayer }
 
@@ -95,20 +93,18 @@ export default function Hand(props) {
         })
     };
 
-    if(!!mainPlayer) {
+    if(!mainPlayer) {
+      postData(playedData)
+    } else{
       if (!!phrase) {
         setFormError(false);
-        setState({ type: 'SELECT_CARD', payload: cardToSelect });
         setPhrase('');
         closeDialog();
-
         playedData = { ...playedData, phrase: phrase }
         postData(playedData);
       } else {
         setFormError(true);
       }
-    } else {
-      postData(playedData);
     }
   }
 
@@ -153,7 +149,7 @@ export default function Hand(props) {
             <Button onClick={closeDialog} color='secondary'>
               <ClearIcon />
             </Button>
-            <Button onClick={completeSelection} color='secondary' disabled={!hasTurn}>
+            <Button onClick={ completeSelection } color='secondary' disabled={!hasTurn}>
               <CheckIcon />
             </Button>
           </DialogActions>
