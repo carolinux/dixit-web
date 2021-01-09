@@ -1,5 +1,4 @@
 import React from 'react';
-import Store from './store/Store';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContainer from './AppContainer';
@@ -43,12 +42,10 @@ function App() {
   }, []);
 
   return (
-    <Store>
-      <div className={classes.root}>
-        <Navigation />
-        <AppContainer apiUrl={apiUrl} hasTurn={hasTurn} mainPlayer={mainPlayer} />
-      </div>
-    </Store>
+    <div className={classes.root}>
+      <Navigation />
+      <AppContainer apiUrl={apiUrl} hasTurn={hasTurn} mainPlayer={mainPlayer} />
+    </div>
   );
 }
 
