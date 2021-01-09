@@ -44,6 +44,7 @@ export default function Hand(props) {
   const [open, setOpen] = useState(false);
   const [cards, setCards] = useState([]);
   const [cardsPlayed, setCardsPlayed] = useState([]);
+  const [userPlayed, setUserPlayed] = useState(false);
   const [yourTurn, setYourTurn] = useState(true);
   const [cardToSelect, setCardToSelect] = useState(undefined);
   const [phrase, setPhrase] = useState('');
