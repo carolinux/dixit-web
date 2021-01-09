@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import GameCard from './GameCard';
+import { CenterFocusStrong } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -14,13 +15,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function CardsPlayed(props) {
-  const { apiUrl } = { ...props };
+  const { apiUrl, mainPlayer } = { ...props };
   const classes = useStyles();
   const [cards, setCards] = React.useState([]);
    
-  // TODO: Get this value from the API
-  const playerHasTurn = true;
-
   // Fetch cards per player
   React.useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +33,7 @@ export default function CardsPlayed(props) {
 
   return (
     <div className={classes.root}>
-      { cards.map((card) => (<GameCard key={card} card={card} open={false} playerHasTurn />)) }
+      { cards.map((card) => (<GameCard key={card} card={card} open={false} mainPlayer={mainPlayer} />)) }
     </div>
   )
 }

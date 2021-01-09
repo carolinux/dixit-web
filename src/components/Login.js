@@ -1,6 +1,5 @@
-import React, { useState, useContext, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Context } from './store/Store';
 import { makeStyles } from '@material-ui/core/styles';
 import { getTexts } from './resources/Texts';
 import axios from 'axios';
@@ -38,22 +37,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
-  const { players, apiUrl } = { ...props };
+  const { apiUrl } = { ...props };
   const texts = getTexts();
   const classes = useStyles();
 
   const [playerName, setPlayerName] = useState('');
   const [usedName, setUsedName] = useState(false);
+  const [players, setPlayers] = useState([]);
   const [formError, setFormError] = useState(false);
-
-  // Use global state
-  const [state, setState] = useContext(Context);
 
   let history = useHistory();
 
   const addPlayer = () => {
     if (formError) { return }
-    const { players } = { ...state };
 
     if (!!players[playerName]) {
       setUsedName(true);
@@ -63,7 +59,6 @@ export default function Login(props) {
     }
 
     if (!!playerName) {
-      setState({ type: 'ADD_PLAYER', payload: playerName });
       const postData = async () => {
         axios.post(`${apiUrl}/players`, { player: playerName })
           .then(res => {

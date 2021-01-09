@@ -77,12 +77,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GameCard(props) {
-  const { card, open, playerHasTurn } = { ...props };
+  const { card, open, mainPlayer } = { ...props };
   const classes = useStyles();
   const pictureUrl = `url(${`/resources/pictures/cards/${card}.jpg`})`;
   const defaultPictureUrl = `url(${`./resources/pictures/cards/0.jpg`})`;
   const [cardOpen, setCardOpen] = React.useState(open);
   const [cardPicture, setCardPicture] = React.useState(defaultPictureUrl);
+
+  // TODO: Pass this from the backend via web sockets
+  const votingEnabled = false;
   
   const vote = () => {
     console.log('Voting...')
@@ -90,7 +93,7 @@ export default function GameCard(props) {
   }
 
   const flipCard = () => {
-    if(!!playerHasTurn) { 
+    if(!!mainPlayer) { 
       setCardOpen(!cardOpen)
     } else {
       // TODO: Implement voting: POST request to the API
@@ -123,7 +126,7 @@ export default function GameCard(props) {
         }}
       />
       <span className={classes.imageBackdrop} />
-      { !playerHasTurn && <span className={classes.imageButton}>
+      { !mainPlayer && !!votingEnabled && <span className={classes.imageButton}>
         <Typography
           component='span'
           color='inherit'

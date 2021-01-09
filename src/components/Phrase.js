@@ -1,17 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import axios from 'axios';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
   phrase: {
-    fontFamily: 'Ubuntu Condensed', // 'Lobster',
+    fontFamily: 'Lobster',
     textAlign: 'center',
-    color: '#630e0e'
-  },
-  paper: {
-    height: 50
+    color: '#f5f6b1',
+    fontStyle: 'italic'
   }
 }));
 
@@ -26,7 +23,6 @@ export default function Phrase(props) {
       axios.get(`${apiUrl}/playedCards`)
         .then(res => {
           const data = res && res.data && res.data.phrase;
-          console.log(data, res)
           setPhrase(data);
         })
     };
@@ -34,8 +30,8 @@ export default function Phrase(props) {
   }, []);
 
   return (
-    <Paper elevation={10} className={classes.paper}>
-      <Typography variant='h6' className={classes.phrase}>{ phrase }</Typography>
-    </Paper>
+    <Fragment>
+      { !!phrase && <Typography variant='h6' className={classes.phrase}>« { phrase } »</Typography> }
+    </Fragment>
   );
 }
