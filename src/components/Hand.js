@@ -79,12 +79,12 @@ export default function Hand(props) {
     setOpen(false);
   };
 
-  const startSelection = (card) => {
+  const play = (card) => {
     !!card && setCardToSelect(card);
     openDialog();
   }
 
-  const completeSelection = () => {
+  const completeTurn = () => {
     let playedData = { card: cardToSelect, mainPlayer: mainPlayer }
 
     const postData = async (data) => {
@@ -119,7 +119,7 @@ export default function Hand(props) {
     <Fragment>
       { showMyCards && <div className={classes.root}>
         {cards.map((card) =>
-          <Button key={card} onClick={() => startSelection(card)}>
+          <Button key={card} onClick={() => play(card)}>
             <HandCard card={card} />
           </Button>)
         }
@@ -151,7 +151,7 @@ export default function Hand(props) {
             <Button onClick={closeDialog} color='secondary'>
               <ClearIcon />
             </Button>
-            <Button onClick={ completeSelection } color='secondary' disabled={!hasTurn}>
+            <Button onClick={ completeTurn } color='secondary' disabled={!hasTurn}>
               <CheckIcon />
             </Button>
           </DialogActions>
