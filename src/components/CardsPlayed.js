@@ -36,7 +36,8 @@ export default function CardsPlayed(props) {
 
   return (
     <div className={classes.root}>
-      { cards.map((card) => (<GameCard key={card} card={card} open={false} roundCompleted={roundCompleted} mainPlayer={mainPlayer} />)) }
+      { cards.map((card) => (<GameCard key={card} card={card} open={false}
+        roundCompleted={roundCompleted} mainPlayer={mainPlayer} apiUrl={apiUrl} />)) }
     </div>
   )
 }
