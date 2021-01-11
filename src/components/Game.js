@@ -27,10 +27,10 @@ export default function Game(props) {
   // Fetch cards per player
   React.useEffect(() => {
     const fetchData = async () => {
-      axios.get(`${apiUrl}//playedCards`)
+      axios.get(`${apiUrl}/playedCards`)
         .then(res => {
           const data = res && res.data;
-          console.log(data)
+          console.log('Data', data)
           setCards(data);
         })
     };
@@ -45,7 +45,7 @@ export default function Game(props) {
       <div>
         { cards.map(x =>
           <Button key={x}>
-            <GameCard card={x} open={false}/>
+            <GameCard card={x} open={false} />
           </Button>) }
       </div>
     </div>

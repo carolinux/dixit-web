@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
@@ -77,7 +78,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GameCard(props) {
-  const { card, open, mainPlayer } = { ...props };
+  const { card, open, mainPlayer, roundCompleted, apiUrl } = { ...props };
+
   const classes = useStyles();
   const pictureUrl = `url(${`/resources/pictures/cards/${card}.jpg`})`;
   const defaultPictureUrl = `url(${`./resources/pictures/cards/0.jpg`})`;
@@ -88,16 +90,27 @@ export default function GameCard(props) {
   const votingEnabled = false;
   
   const vote = () => {
-    console.log('Voting...')
-      // TODO: Implement voting
+    const postData = async (data) => {
+      axios.post(`${apiUrl}/vote`, { ...data })
+        .then(res => {
+          console.log('Voted', res)
+        })
+    };
+    postData({card: card})
   }
 
   const flipCard = () => {
-    if(!!mainPlayer) { 
-      setCardOpen(!cardOpen)
-    } else {
-      // TODO: Implement voting: POST request to the API
-      vote();
+    setCardOpen(!cardOpen)
+  }
+
+  const selectCard = () => {
+    if(!!roundCompleted) {
+      if(!!mainPlayer) {
+        flipCard()
+      } else {
+        // TODO: Implement voting: POST request to the API
+        vote();
+      }
     }
   }
 
@@ -110,7 +123,7 @@ export default function GameCard(props) {
   }, [cardOpen])
 
   return (
-    <ButtonBase onClick={flipCard}
+    <ButtonBase onClick={selectCard}
       focusRipple
       className={classes.image}
       focusVisibleClassName={classes.focusVisible}
