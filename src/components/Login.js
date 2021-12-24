@@ -49,6 +49,7 @@ export default function Login(props) {
   let history = useHistory();
 
   const addPlayer = () => {
+  console.log("Adding player")
     if (formError) { return }
 
     if (!!players[playerName]) {
@@ -60,13 +61,13 @@ export default function Login(props) {
 
     if (!!playerName) {
       const postData = async () => {
-        axios.post(`${apiUrl}/players`, { player: playerName })
+        axios.post(`${apiUrl}/game`, { player: playerName })
           .then(res => {
             console.log(res.data);
           })
       };
       postData();
-      history.push('/board');
+      //history.push('/board');
     }
   }
 
@@ -85,7 +86,6 @@ export default function Login(props) {
       <Grid item xs={12}>
         <Grid container justifyContent='center' spacing={2}>
           <Grid item className={classes.paper}>
-            {players.length < 6 &&
               <div className={classes.paper}>
                 <Typography variant='h4' className={classes.title}>
                   {texts.login.title}
@@ -107,13 +107,8 @@ export default function Login(props) {
                     {texts.login.ready}
                   </Button>
                 </Fragment>
-              </div>}
+              </div>
 
-            {players.length === 6 &&
-              <Typography variant='h4' className={classes.title}>
-                {texts.login.fullGame}
-              </Typography>
-            }
           </Grid>
         </Grid>
       </Grid>
