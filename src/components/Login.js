@@ -83,7 +83,7 @@ export default function Login(props) {
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
-        <Grid container justify='center' spacing={2}>
+        <Grid container justifyContent='center' spacing={2}>
           <Grid item className={classes.paper}>
             {players.length < 6 &&
               <div className={classes.paper}>
