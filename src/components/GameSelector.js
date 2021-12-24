@@ -1,26 +1,35 @@
-import React from "react";
-import styled from 'styled-components';
+import React, { useState, Fragment } from 'react';
+import axios from 'axios';
+import {Select, MenuItem} from '@material-ui/core';
 
-const DropDownContainer = styled("div")``;
-const DropDownHeader = styled("div")``;
-const DropDownListContainer = styled("div")``;
-const DropDownList = styled("ul")``;
-const ListItem = styled("li")``;
+export default function GameSelector(props) {
+  const {playerName } = { ...props };
 
-export default function GameSelector() {
+  const fetchGames = () => {
+      const getData = async () => {
+        axios.get(process.env.REACT_APP_API_URL+ '/games', { player: playerName })
+          .then(res => {
+            console.log(res.data);
+          })
+      };
+      getData();
+  }
+
+  const [selection, setSelection] = useState("");
+  const [games, setGames] = useState([]);
+  const handleChange = (e) => setSelection(e.target.value);
+
+
+
   return (
-    <div>
-      <h1>Custom Select/dropdown</h1>
-      <DropDownContainer>
-        <DropDownHeader>Mangoes</DropDownHeader>
-        <DropDownListContainer>
-          <DropDownList>
-            <ListItem>Mangoes</ListItem>
-            <ListItem>Apples</ListItem>
-            <ListItem>Oranges</ListItem>
-          </DropDownList>
-        </DropDownListContainer>
-      </DropDownContainer>
-    </div>
-  );
+  <Fragment>
+  <Select onChange={handleChange} defaultValue="new">
+  <MenuItem value="new">Create New Game</MenuItem>
+  <MenuItem value="2">Another action</MenuItem>
+  <MenuItem value="3">Something else here</MenuItem>
+  </Select>
+
+  <p> selected {selection} for {playerName}</p>
+  </Fragment>
+)
 }

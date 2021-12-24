@@ -44,7 +44,6 @@ export default function Login(props) {
 
   const [playerName, setPlayerName] = useState('');
   const [usedName, setUsedName] = useState(false);
-  const [players, setPlayers] = useState([]);
   const [formError, setFormError] = useState(false);
 
   let history = useHistory();
@@ -52,13 +51,6 @@ export default function Login(props) {
   const addPlayer = () => {
   console.log("Adding player")
     if (formError) { return }
-
-    if (!!players[playerName]) {
-      setUsedName(true);
-      return;
-    } else {
-      setUsedName(false);
-    }
 
     if (!!playerName) {
     console.log(process.env)
@@ -105,7 +97,8 @@ export default function Login(props) {
                       {texts.login.nameUsed}
                     </Typography>
                   }
-                  <GameSelector />
+                <GameSelector playerName={playerName} />
+
                   <Button size='small' color='primary' onClick={addPlayer} className={classes.control}>
                     {texts.login.ready}
                   </Button>

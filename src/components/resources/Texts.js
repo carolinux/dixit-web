@@ -30,7 +30,7 @@ export const getTexts = (props) => {
     },
     divider: '~',
     login: {
-      title: 'Choose a name & enter the game!',
+      title: 'Choose a name & game to enter!',
       question: 'What\'s your name?',
       ready: 'I\'m ready!',
       nameUsed: 'Someone is using already this name...',
