@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Board(props) {
-  const { apiUrl, hasTurn, mainPlayer } = { ...props };
+  const {mainPlayer } = { ...props };
   const classes = useStyles();
   const [boardClean, setBoardClean] = React.useState(true);
 
@@ -31,14 +31,14 @@ export default function Board(props) {
     <Container>
       <Grid container>
         <Grid item xs={12} className={classes.cardsPlayed}>
-          {!!boardClean && <CardsPlayed apiUrl={apiUrl} mainPlayer={mainPlayer} />}
+          {!!boardClean && <CardsPlayed mainPlayer={mainPlayer} />}
         </Grid>
         <Grid item xs={2} sm={2}>
-          <Players apiUrl={apiUrl} />
+          <Players/>
         </Grid>
         <Grid item xs={8} sm={10}>
-          <Phrase apiUrl={apiUrl} />
-          <Hand apiUrl={apiUrl} hasTurn={hasTurn} mainPlayer={mainPlayer} />
+          <Phrase/>
+          <Hand hasTurn={false} mainPlayer={mainPlayer} />
         </Grid>
         <Grid item xs={2} sm={2}></Grid>
       </Grid>

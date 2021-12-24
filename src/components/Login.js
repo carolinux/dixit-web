@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import GameSelector from './GameSelector';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
-  const { apiUrl } = { ...props };
+
   const texts = getTexts();
   const classes = useStyles();
 
@@ -60,8 +61,9 @@ export default function Login(props) {
     }
 
     if (!!playerName) {
+    console.log(process.env)
       const postData = async () => {
-        axios.post(`${apiUrl}/game`, { player: playerName })
+        axios.post(process.env.REACT_APP_API_URL+ '/games', { player: playerName })
           .then(res => {
             console.log(res.data);
           })
@@ -103,6 +105,7 @@ export default function Login(props) {
                       {texts.login.nameUsed}
                     </Typography>
                   }
+                  <GameSelector />
                   <Button size='small' color='primary' onClick={addPlayer} className={classes.control}>
                     {texts.login.ready}
                   </Button>

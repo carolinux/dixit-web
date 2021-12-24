@@ -12,10 +12,10 @@ function AppContainer(props) {
     <Router>
       <Switch>
         <Route path='/login'>
-          <Login apiUrl={apiUrl} />
+          <Login/>
         </Route>
         <Route path='/board'>
-          <Board apiUrl={apiUrl} hasTurn={hasTurn} mainPlayer={mainPlayer} />
+          <Board mainPlayer={mainPlayer} />
         </Route>
         <Route path='/rules'>
           <Rules />
