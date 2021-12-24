@@ -57,6 +57,7 @@ export default function Login(props) {
       const postData = async () => {
         axios.post(process.env.REACT_APP_API_URL+ '/games', { player: playerName })
           .then(res => {
+            console.log("Created a new game!")
             console.log(res.data);
           })
       };
