@@ -54,7 +54,7 @@ export default function Board(props) {
           <Phrase/>
           <Hand hasTurn={false} mainPlayer={mainPlayer} />
         </Grid>
-        <Grid item xs={2} sm={2}></Grid>
+        <Grid item xs={2} sm={2}><p>Game state</p></Grid>
       </Grid>
     </Container>
   );

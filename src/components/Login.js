@@ -44,10 +44,13 @@ export default function Login(props) {
 
   const {updatePlayer} = {...props};
 
-  const [playerName, setPlayerName] = useState('');
+  const [playerName, setPlayerName] = useState('carolinux');
   const [usedName, setUsedName] = useState(false);
   const [formError, setFormError] = useState(false);
   const [gameId, setGameId] = useState('new')
+  const axiosWithCookies = axios.create({
+  withCredentials: true
+});
 
   let history = useHistory();
 
@@ -60,7 +63,7 @@ export default function Login(props) {
     if (!!playerName && !!gameId) {
     console.log(process.env)
       const postData = async () => {
-        axios.post(process.env.REACT_APP_API_URL+ '/games', { player: playerName, game: gameId })
+        axiosWithCookies.post(process.env.REACT_APP_API_URL+ '/games', { player: playerName, game: gameId })
           .then(res => {
             console.log(res.data);
             updatePlayer(playerName);
@@ -99,6 +102,7 @@ export default function Login(props) {
                       helperText={texts.login.question}
                       error={formError}
                       className={classes.formText}
+                      value={playerName}
                     />
                   </form>
                   {!!usedName &&
