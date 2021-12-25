@@ -43,6 +43,10 @@ export const getTexts = (props) => {
       userInfo: 'User info',
       home: 'Game',
       about: 'About'
+    },
+    stateTransitions: {
+      start: 'Start the first round!'
+
     }
   }
 

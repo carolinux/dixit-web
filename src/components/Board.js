@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import CardsPlayed from './CardsPlayed';
 import Hand from './Hand';
 import Players from './Players';
@@ -9,6 +10,9 @@ import Phrase from './Phrase';
 import axios from 'axios';
 import { useHistory, useParams } from "react-router-dom";
 import Cookies from 'js-cookie';
+import { getTexts } from './resources/Texts';
+import Typography from '@material-ui/core/Typography';
+
 
 const useStyles = makeStyles(() => ({
   cardsPlayed: {
@@ -34,6 +38,7 @@ function equalArray(a, b) {
 
 export default function Board(props) {
 
+  const texts = getTexts();
   const axiosWithCookies = axios.create({
   withCredentials: true
 });
@@ -50,6 +55,8 @@ export default function Board(props) {
   // TODO: Get this value from the API
   const roundCompleted = true;
   const playerPlayed = false;
+
+  const startGame = () => {};
 
   const updateState = async () => {
     axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
@@ -97,8 +104,6 @@ export default function Board(props) {
 
 
 
-
-
   return (
     <Container>
       <Grid container>
@@ -112,7 +117,14 @@ export default function Board(props) {
           <Phrase/>
           <Hand hasTurn={false} mainPlayer={mainPlayer} />
         </Grid>
-        <Grid item xs={2} sm={2}><p>Game state: {gameState}</p></Grid>
+        <Grid item xs={2} sm={2}>
+        <Typography variant='body2' className={classes.title}>
+          There are {players.length} player(s) connected.
+        </Typography>
+         {gameState==="waiting_to_start" && <Button size='small' color='primary' onClick={startGame} className={classes.control}>
+                    {texts.stateTransitions.start}
+                  </Button>}
+        </Grid>
       </Grid>
     </Container>
   );
