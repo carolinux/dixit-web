@@ -26,7 +26,7 @@ export default function Phrase(props) {
           setPhrase(data);
         })
     };
-    fetchData();
+    //fetchData();
   }, []);
 
   return (

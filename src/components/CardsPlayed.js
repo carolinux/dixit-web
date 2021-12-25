@@ -31,7 +31,7 @@ export default function CardsPlayed(props) {
           setRoundCompleted(completed);
         })
     };
-    fetchData();
+    //fetchData();
   }, []);
 
   return (

@@ -19,7 +19,7 @@ function App() {
   return (
     <div className={classes.root}>
       <Navigation />
-      <AppContainer mainPlayer={mainPlayer} updatePlayer={updatePlayer} />
+      <AppContainer updatePlayer={updatePlayer} />
     </div>
   );
 }

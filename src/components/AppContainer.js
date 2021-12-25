@@ -15,7 +15,7 @@ function AppContainer(props) {
           <Login updatePlayer={updatePlayer}/>
         </Route>
         <Route path='/board/:gid'>
-          <Board mainPlayer={mainPlayer}/>
+          <Board/>
         </Route>
         <Route path='/rules'>
           <Rules />

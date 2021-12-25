@@ -61,7 +61,7 @@ export default function Hand(props) {
           setCards(data);
         })
     };
-    fetchData();
+    //fetchData();
   }, []);
 
   // TODO: Get current player from the API

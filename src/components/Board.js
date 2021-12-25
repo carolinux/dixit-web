@@ -8,20 +8,27 @@ import Players from './Players';
 import Phrase from './Phrase';
 import axios from 'axios';
 import { useHistory, useParams } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles(() => ({
   cardsPlayed: {
     minHeight: 270
-  }
+  },
+
+
 }));
 
 export default function Board(props) {
-  const {gid } = useParams();
 
-  const {mainPlayer} =  {...props };
+  const axiosWithCookies = axios.create({
+  withCredentials: true
+});
+
+  const {gid } = useParams();
+  const mainPlayer = Cookies.get('player');
   const classes = useStyles();
   console.log("Game "+gid+" for player "+mainPlayer);
-  const [players, setPlayers] = useState([mainPlayer]);
+  const [players, setPlayers] = useState([{name: mainPlayer}]);
 
   /* get state every second */
 
@@ -31,7 +38,7 @@ export default function Board(props) {
 
   React.useEffect(() => {
 
-  axios.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
+  axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
      .then(resp => {
        console.log(resp)
        setPlayers(resp.data.game.playerList);
