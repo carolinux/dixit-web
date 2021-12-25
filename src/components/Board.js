@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -18,6 +18,20 @@ const useStyles = makeStyles(() => ({
 
 }));
 
+
+function equalArray(a, b) {
+    if (a.length === b.length) {
+        for (var i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+
 export default function Board(props) {
 
   const axiosWithCookies = axios.create({
@@ -28,7 +42,8 @@ export default function Board(props) {
   const mainPlayer = Cookies.get('player');
   const classes = useStyles();
   console.log("Game "+gid+" for player "+mainPlayer);
-  const [players, setPlayers] = useState([{name: mainPlayer}]);
+  const [players, setPlayers] = useState([{name: ''}]);
+  const [gameState, setGameState] = useState('')
 
   /* get state every second */
 
@@ -36,17 +51,53 @@ export default function Board(props) {
   const roundCompleted = true;
   const playerPlayed = false;
 
-  React.useEffect(() => {
-
-  axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
+  const updateState = async () => {
+    axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
      .then(resp => {
-       console.log(resp)
-       setPlayers(resp.data.game.playerList);
+       console.log('call update at '+  new Date().toLocaleString());
+       let game = resp.data.game;
+       let changed = false;
 
-     })
+
+       if (JSON.stringify(players) !=  JSON.stringify(game.playerList)) {
+
+            setPlayers(game.playerList);
+            changed = true;
+       }
+
+       if (game.state != gameState) {
+
+            setGameState(game.state); // this re-renders the component....
+            changed = true;
+        }
+
+        console.log("changed "+changed);
+
+        if (!changed) {
+
+            setTimeout(() => updateState(), 5000) // maybe this isn't cleaned properly idk
+
+        }
+
+        }
 
 
-  }, [])
+     )
+
+  };
+
+
+  useEffect(() => {
+  console.log('inside use effect')
+    const timerID = setTimeout(() => updateState(), 200)
+    return () => {
+      clearTimeout(timerID)
+    }
+  }, [gameState, players]); // call useeffect every time something changes
+
+
+
+
 
   return (
     <Container>
@@ -61,7 +112,7 @@ export default function Board(props) {
           <Phrase/>
           <Hand hasTurn={false} mainPlayer={mainPlayer} />
         </Grid>
-        <Grid item xs={2} sm={2}><p>Game state</p></Grid>
+        <Grid item xs={2} sm={2}><p>Game state: {gameState}</p></Grid>
       </Grid>
     </Container>
   );

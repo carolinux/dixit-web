@@ -15,6 +15,7 @@ function App() {
   const classes = useStyles();
   const [mainPlayer, setMainPlayer] = React.useState(false);
   const updatePlayer = (name) => setMainPlayer(name);
+  console.log("APPP")
 
   return (
     <div className={classes.root}>

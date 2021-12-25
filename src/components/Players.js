@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
 export default function Players(props) {
   const { players } = { ...props };
   const classes = useStyles();
-  console.log('players: '+players[0].name);
+  console.log('players: '+players);
 
   return (
   <List>
