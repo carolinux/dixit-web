@@ -23,19 +23,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-function equalArray(a, b) {
-    if (a.length === b.length) {
-        for (var i = 0; i < a.length; i++) {
-            if (a[i] !== b[i]) {
-                return false;
-            }
-        }
-        return true;
-    } else {
-        return false;
-    }
-}
-
 export default function Board(props) {
 
   const texts = getTexts();
@@ -48,7 +35,8 @@ export default function Board(props) {
   const classes = useStyles();
   console.log("Game "+gid+" for player "+mainPlayer);
   const [players, setPlayers] = useState([{name: ''}]);
-  const [gameState, setGameState] = useState('')
+  const [gameState, setGameState] = useState('');
+  const [cards, setCards] = useState([]);
 
   /* get state every second */
 
@@ -56,39 +44,50 @@ export default function Board(props) {
   const roundCompleted = true;
   const playerPlayed = false;
 
-  const startGame = () => {};
+  const transitionGame = (transition, transition_data) => {
+
+   axiosWithCookies.put(process.env.REACT_APP_API_URL+ '/games/' + gid + '/' + transition)
+     .then(resp => {
+       let game = resp.data.game;
+       if (JSON.stringify(players) !=  JSON.stringify(game.playerList)) {
+            setPlayers(game.playerList);
+       }
+       if (game.state != gameState) {
+            setGameState(game.state);
+        }
+       if (JSON.stringify(cards) !=  JSON.stringify(game.roundInfo.cards)) {
+            setCards(game.roundInfo.cards);
+       }
+     });
+  }
 
   const updateState = async () => {
     axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
      .then(resp => {
        console.log('call update at '+  new Date().toLocaleString());
+       console.log(resp.data.game);
        let game = resp.data.game;
        let changed = false;
 
-
        if (JSON.stringify(players) !=  JSON.stringify(game.playerList)) {
-
             setPlayers(game.playerList);
             changed = true;
        }
 
+       if (JSON.stringify(cards) !=  JSON.stringify(game.roundInfo.cards)) {
+            setCards(game.roundInfo.cards);
+            changed = true;
+       }
        if (game.state != gameState) {
-
             setGameState(game.state); // this re-renders the component....
             changed = true;
         }
 
         console.log("changed "+changed);
-
         if (!changed) {
-
             setTimeout(() => updateState(), 5000) // maybe this isn't cleaned properly idk
-
         }
-
         }
-
-
      )
 
   };
@@ -100,7 +99,7 @@ export default function Board(props) {
     return () => {
       clearTimeout(timerID)
     }
-  }, [gameState, players]); // call useeffect every time something changes
+  }, [gameState, players, cards]); // call useeffect every time something changes
 
 
 
@@ -115,15 +114,16 @@ export default function Board(props) {
         </Grid>
         <Grid item xs={8} sm={10}>
           <Phrase/>
-          <Hand hasTurn={false} mainPlayer={mainPlayer} />
+          <Hand hasTurn={true} mainPlayer={mainPlayer} cards={cards}/>
         </Grid>
         <Grid item xs={2} sm={2}>
         <Typography variant='body2' className={classes.title}>
           There are {players.length} player(s) connected.
         </Typography>
-         {gameState==="waiting_to_start" && <Button size='small' color='primary' onClick={startGame} className={classes.control}>
-                    {texts.stateTransitions.start}
-                  </Button>}
+        {gameState==="waiting_to_start" && <Button size='small' color='primary' onClick={() => transitionGame('start')} className={classes.control}>
+          {texts.stateTransitions.start}
+        </Button>
+        }
         </Grid>
       </Grid>
     </Container>

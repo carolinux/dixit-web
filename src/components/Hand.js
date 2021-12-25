@@ -38,11 +38,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Hand(props) {
-  const { apiUrl, hasTurn, mainPlayer } = { ...props };
-  const playerName = 'George';
+  const {hasTurn, mainPlayer, cards } = { ...props };
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [cards, setCards] = useState([]);
   const [cardsPlayed, setCardsPlayed] = useState([]);
   const [userPlayed, setUserPlayed] = useState(false);
   const [yourTurn, setYourTurn] = useState(true);
@@ -51,22 +49,10 @@ export default function Hand(props) {
   const [showMyCards, setShowMyCards] = useState(true);
   const [formError, setFormError] = useState(false);
 
-  // Fetch cards per player
-  useEffect(() => {
-    const fetchData = async () => {
-      axios.get(`${apiUrl}/cards?player=${playerName}`)
-        .then(res => {
-          const data = res && res.data;
-          console.log(data)
-          setCards(data);
-        })
-    };
-    //fetchData();
-  }, []);
 
   // TODO: Get current player from the API
-  const currentPlayer = 'George';
-  const texts = getTexts({ currentPlayer });
+
+  const texts = getTexts();
 
   const question = yourTurn ? texts.cardSelectionDialog.question.mainPlayer
     : texts.cardSelectionDialog.question.otherPlayers;
@@ -84,7 +70,7 @@ export default function Hand(props) {
     openDialog();
   }
 
-  const completeTurn = () => {
+  const completeTurn = () => { /*
     let playedData = { card: cardToSelect, mainPlayer: mainPlayer }
 
     const postData = async (data) => {
@@ -107,7 +93,7 @@ export default function Hand(props) {
       } else {
         setFormError(true);
       }
-    }
+    }*/
   }
 
   const addPhrase = (event) => {
@@ -130,7 +116,7 @@ export default function Hand(props) {
 
           <CardMedia
             className={classes.media}
-            image={`./resources/pictures/cards/${cardToSelect}.jpg`} />
+            image={`http://127.0.0.1:3000/resources/pictures/cards/${cardToSelect}.jpg`} />
 
           { !!mainPlayer && <Fragment>
             <Typography variant='h6' className={classes.dialog}>
@@ -152,7 +138,7 @@ export default function Hand(props) {
               <ClearIcon />
             </Button>
             <Button onClick={ completeTurn } color='secondary' disabled={!hasTurn}>
-              <CheckIcon />
+              <CheckIcon style={{ fill: '#39ff14' }}/>
             </Button>
           </DialogActions>
         </Dialog>
