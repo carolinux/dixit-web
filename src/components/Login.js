@@ -45,17 +45,20 @@ export default function Login(props) {
   const [playerName, setPlayerName] = useState('');
   const [usedName, setUsedName] = useState(false);
   const [formError, setFormError] = useState(false);
+  const [gameId, setGameId] = useState('new')
 
   let history = useHistory();
 
   const addPlayer = () => {
-  console.log("Adding player")
+  console.log("Adding player to game")
+  console.log(playerName);
+  console.log(gameId)
     if (formError) { return }
 
-    if (!!playerName) {
+    if (!!playerName && !!gameId) {
     console.log(process.env)
       const postData = async () => {
-        axios.post(process.env.REACT_APP_API_URL+ '/games', { player: playerName })
+        axios.post(process.env.REACT_APP_API_URL+ '/games', { player: playerName, game: gameId })
           .then(res => {
             console.log("Created a new game!")
             console.log(res.data);
@@ -75,6 +78,8 @@ export default function Login(props) {
       setFormError(false);
     }
   }
+
+  const updateGame = (gid) => setGameId(gid);
 
   return (
     <Grid container className={classes.root} spacing={2}>
@@ -98,7 +103,7 @@ export default function Login(props) {
                       {texts.login.nameUsed}
                     </Typography>
                   }
-                <GameSelector playerName={playerName} />
+                <GameSelector playerName={playerName} updateGame={updateGame} />
 
                   <Button size='small' color='primary' onClick={addPlayer} className={classes.control}>
                     {texts.login.ready}
