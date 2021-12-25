@@ -6,6 +6,7 @@ import CardsPlayed from './CardsPlayed';
 import Hand from './Hand';
 import Players from './Players';
 import Phrase from './Phrase';
+import { useHistory, useParams } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   cardsPlayed: {
@@ -14,9 +15,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Board(props) {
-  const {mainPlayer } = { ...props };
+  const {gid } = useParams();
+
+  const {mainPlayer} =  {...props };
   const classes = useStyles();
   const [boardClean, setBoardClean] = React.useState(true);
+  console.log("Game "+gid+" for player "+mainPlayer);
+
+  /* get state every second */
 
   // TODO: Get this value from the API
   const roundCompleted = true;

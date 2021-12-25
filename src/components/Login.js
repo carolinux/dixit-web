@@ -42,6 +42,8 @@ export default function Login(props) {
   const texts = getTexts();
   const classes = useStyles();
 
+  const {updatePlayer} = {...props};
+
   const [playerName, setPlayerName] = useState('');
   const [usedName, setUsedName] = useState(false);
   const [formError, setFormError] = useState(false);
@@ -60,12 +62,13 @@ export default function Login(props) {
       const postData = async () => {
         axios.post(process.env.REACT_APP_API_URL+ '/games', { player: playerName, game: gameId })
           .then(res => {
-            console.log("Created a new game!")
             console.log(res.data);
+            updatePlayer(playerName);
+            history.push('/board/'+res.data['game']);
           })
       };
       postData();
-      //history.push('/board');
+
     }
   }
 

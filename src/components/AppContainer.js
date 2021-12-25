@@ -6,16 +6,16 @@ import Login from './Login';
 import Board from './Board';
 
 function AppContainer(props) {
-  const { players, apiUrl, hasTurn, mainPlayer } = { ...props };
+  const { mainPlayer, updatePlayer } = { ...props };
 
   return (
     <Router>
       <Switch>
         <Route path='/login'>
-          <Login/>
+          <Login updatePlayer={updatePlayer}/>
         </Route>
-        <Route path='/board'>
-          <Board mainPlayer={mainPlayer} />
+        <Route path='/board/:gid'>
+          <Board mainPlayer={mainPlayer}/>
         </Route>
         <Route path='/rules'>
           <Rules />
