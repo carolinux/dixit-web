@@ -14,28 +14,15 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Players(props) {
-  const { apiUrl } = { ...props };
+  const { players } = { ...props };
   const classes = useStyles();
-  const [players, setPlayers] = React.useState([]);
-
-  // Fetch players when component mounts
-  React.useEffect(() => {
-    const fetchData = async () => {
-      axios.get(`${apiUrl}/players`)
-        .then(res => {
-          const data = res && res.data;
-          setPlayers(data);
-        })
-    };
-    fetchData();
-  }, []);
 
   return (
   <List>
     { players.map(player =>
-    <ListItem className={classes.players} key={player}>
-      <ListItemIcon className={classes.players}>{ !!player.hasTurn && <SportsEsportsOutlinedIcon />}</ListItemIcon>
-      {player.name} 
+    <ListItem className={classes.players} key={player.name}>
+      <ListItemIcon className={classes.players}><SportsEsportsOutlinedIcon /></ListItemIcon>
+      {player.name}
     </ListItem> )}
   </List>
   );

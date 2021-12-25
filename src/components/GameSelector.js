@@ -32,7 +32,7 @@ export default function GameSelector(props) {
   <Fragment>
   <Select onChange={handleChange} defaultValue="new">
   <MenuItem value="new">Start New Game</MenuItem>
-  {games.map(game =>  <MenuItem value={game.id}>Existing game {game.id} with {game.players} player(s) ({game.playerString}) ({game.join_action})</MenuItem>)}
+  {games.map(game =>  <MenuItem value={game.id} key={game.id}>Existing game {game.id} with {game.players} player(s) ({game.playerString}) ({game.join_action})</MenuItem>)}
   </Select>
 
   </Fragment>

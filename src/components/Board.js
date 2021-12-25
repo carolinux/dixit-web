@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -6,6 +6,7 @@ import CardsPlayed from './CardsPlayed';
 import Hand from './Hand';
 import Players from './Players';
 import Phrase from './Phrase';
+import axios from 'axios';
 import { useHistory, useParams } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
@@ -19,8 +20,8 @@ export default function Board(props) {
 
   const {mainPlayer} =  {...props };
   const classes = useStyles();
-  const [boardClean, setBoardClean] = React.useState(true);
   console.log("Game "+gid+" for player "+mainPlayer);
+  const [players, setPlayers] = useState([mainPlayer]);
 
   /* get state every second */
 
@@ -29,18 +30,25 @@ export default function Board(props) {
   const playerPlayed = false;
 
   React.useEffect(() => {
-    !!roundCompleted && setBoardClean(true);
-    !!playerPlayed && setBoardClean(false);
-  }, [roundCompleted, playerPlayed])
+
+  axios.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
+     .then(resp => {
+       console.log(resp)
+       setPlayers(resp.data.game.playerList);
+
+     })
+
+
+  }, [])
 
   return (
     <Container>
       <Grid container>
         <Grid item xs={12} className={classes.cardsPlayed}>
-          {!!boardClean && <CardsPlayed mainPlayer={mainPlayer} />}
+           <CardsPlayed mainPlayer={mainPlayer} />
         </Grid>
         <Grid item xs={2} sm={2}>
-          <Players/>
+          <Players players={players}/>
         </Grid>
         <Grid item xs={8} sm={10}>
           <Phrase/>
