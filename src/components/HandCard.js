@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles(() => ({
   card: {
-    width: 160,
+    width: 150,
     height: 224,
   }
 }));
