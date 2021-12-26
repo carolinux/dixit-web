@@ -38,9 +38,7 @@ export default function Board(props) {
   const [gameState, setGameState] = useState('');
   const [cards, setCards] = useState([]);
 
-  /* get state every second */
 
-  // TODO: Get this value from the API
   const roundCompleted = true;
   const playerPlayed = false;
 
@@ -114,7 +112,7 @@ export default function Board(props) {
         </Grid>
         <Grid item xs={8} sm={10}>
           <Phrase/>
-          <Hand hasTurn={true} mainPlayer={mainPlayer} cards={cards}/>
+          <Hand isNarrator={true} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState}/>
         </Grid>
         <Grid item xs={2} sm={2}>
         <Typography variant='body2' className={classes.title}>

@@ -26,7 +26,9 @@ const useStyles = makeStyles(() => ({
   dialog: {
     fontFamily: 'Lobster',
     textAlign: 'center',
-    paddingTop: 20
+    paddingTop: 20,
+   // height: 500,
+   // width: 300
   },
   media: {
     height: 400,
@@ -37,25 +39,45 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+
+function determine_prompt(gameState, isNarrator) {
+
+
+    if (gameState === "waiting_for_narrator" && isNarrator) {
+    return "Choose a card and an associated phrase!";
+    }
+    if (gameState === "waiting_for_narrator" && !isNarrator) {
+    return "Waiting for narrator to choose";
+    }
+
+    return "";
+
+
+
+
+};
+
 export default function Hand(props) {
-  const {hasTurn, mainPlayer, cards } = { ...props };
+  const {isNarrator, player, cards, transitionGame, gameState } = { ...props };
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [cardsPlayed, setCardsPlayed] = useState([]);
-  const [userPlayed, setUserPlayed] = useState(false);
-  const [yourTurn, setYourTurn] = useState(true);
+  //const [cardsPlayed, setCardsPlayed] = useState([]);
+  //const [userPlayed, setUserPlayed] = useState(false);
   const [cardToSelect, setCardToSelect] = useState(undefined);
   const [phrase, setPhrase] = useState('');
-  const [showMyCards, setShowMyCards] = useState(true);
   const [formError, setFormError] = useState(false);
 
 
-  // TODO: Get current player from the API
+
 
   const texts = getTexts();
 
-  const question = yourTurn ? texts.cardSelectionDialog.question.mainPlayer
+  const question = isNarrator ? texts.cardSelectionDialog.question.mainPlayer
     : texts.cardSelectionDialog.question.otherPlayers;
+
+   const prompt = determine_prompt(gameState, isNarrator);
+
+
 
   const openDialog = () => {
     setOpen(true);
@@ -70,30 +92,25 @@ export default function Hand(props) {
     openDialog();
   }
 
-  const completeTurn = () => { /*
-    let playedData = { card: cardToSelect, mainPlayer: mainPlayer }
-
-    const postData = async (data) => {
-      axios.post(`${apiUrl}/playedCards`, { ...data })
-        .then(res => {
-          setShowMyCards(false);
-          setUserPlayed(true);
-        })
-    };
-
-    if(!mainPlayer) {
-      postData(playedData)
-    } else{
+  const completeHand = () => {
+    let playedData = { card: cardToSelect};
+    console.log('phrase: ' + phrase);
+    if (isNarrator) {
       if (!!phrase) {
         setFormError(false);
-        setPhrase('');
+        //setPhrase('');
         closeDialog();
         playedData = { ...playedData, phrase: phrase }
-        postData(playedData);
+        transitionGame('select', playedData);
       } else {
         setFormError(true);
       }
-    }*/
+
+    }
+    else {
+       transitionGame('select', playedData);
+    }
+
   }
 
   const addPhrase = (event) => {
@@ -103,7 +120,7 @@ export default function Hand(props) {
 
   return (
     <Fragment>
-      { showMyCards && <div className={classes.root}>
+      <div className={classes.root}>
         {cards.map((card) =>
           <Button key={card} onClick={() => play(card)}>
             <HandCard card={card} />
@@ -118,11 +135,12 @@ export default function Hand(props) {
             className={classes.media}
             image={`http://127.0.0.1:3000/resources/pictures/cards/${cardToSelect}.jpg`} />
 
-          { !!mainPlayer && <Fragment>
+          <Fragment>
             <Typography variant='h6' className={classes.dialog}>
               {question}
             </Typography>
-
+          </Fragment>
+          { isNarrator &&
             <DialogContent>
               <DialogContentText>
                 <TextField onChange={addPhrase} fullWidth
@@ -131,18 +149,23 @@ export default function Hand(props) {
                 />
               </DialogContentText>
             </DialogContent>
-          </Fragment>}
+          }
 
           <DialogActions className={classes.controls}>
             <Button onClick={closeDialog} color='secondary'>
               <ClearIcon />
             </Button>
-            <Button onClick={ completeTurn } color='secondary' disabled={!hasTurn}>
+            <Button onClick={ completeHand } color='secondary' disabled={!isNarrator}>
               <CheckIcon style={{ fill: '#39ff14' }}/>
             </Button>
           </DialogActions>
         </Dialog>
-      </div>}
+       <Fragment>
+        <Typography variant='h6' className={classes.dialog}>
+         {prompt}
+        </Typography>
+        </Fragment>
+      </div>
     </Fragment>
   );
 }
