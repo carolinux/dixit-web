@@ -175,7 +175,7 @@ export default function Hand(props) {
 
           <CardMedia
             className={classes.media}
-            image={`http://127.0.0.1:3000/resources/pictures/cards/${cardToSelect}.jpg`} />
+            image={`http://127.0.0.1:3000/resources/pictures/cards/medusa/${cardToSelect}.jpg`} />
 
           <Fragment>
             <Typography variant='h6' className={classes.dialog}>
