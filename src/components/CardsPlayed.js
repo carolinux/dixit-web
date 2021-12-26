@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexWrap: 'wrap',
     minWidth: 1500,
-    minHeight: 270,
+    minHeight: 224,
     width: '100%'
   }
 }));
