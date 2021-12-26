@@ -35,11 +35,13 @@ export default function Board(props) {
   const classes = useStyles();
   console.log("Game "+gid+" for player "+mainPlayer);
 
-  const [players, setPlayers] = useState([{name: ''}]);
+  const [players, setPlayers] = useState([]);
   const [gameState, setGameState] = useState('');
   const [cards, setCards] = useState([]); // cards in hand
   const [playedCards, setPlayedCards] = useState([]); // cards active in round
   const [isNarrator, setIsNarrator] = useState(false);
+  const [phrase, setPhrase] = useState('');
+  let currTimeout = undefined;
 
 
 
@@ -52,27 +54,39 @@ export default function Board(props) {
 
        if (JSON.stringify(players) !=  JSON.stringify(game.playerList)) {
             setPlayers(game.playerList);
+                        //console.log('pl');
             changed = true;
        }
 
        if (JSON.stringify(cards) !=  JSON.stringify(game.roundInfo.hand)) {
             setCards(game.roundInfo.hand);
+                        //console.log('ha');
             changed = true;
        }
 
          if (JSON.stringify(playedCards) !=  JSON.stringify(game.roundInfo.playedCards)) {
             setPlayedCards(game.roundInfo.playedCards);
+                        //console.log('cards');
             changed = true;
        }
        if (game.state != gameState) {
+                  // console.log('st');
             setGameState(game.state); // this re-renders the component....
             changed = true;
         }
 
         if (game.isNarrator != isNarrator) {
+                    //console.log('narr');
             setIsNarrator(game.isNarrator);
             changed = true;
         }
+        if (game.roundInfo.phrase != phrase) {
+            setPhrase(game.roundInfo.phrase);
+            //console.log('phrase');
+            changed = true;
+        }
+
+
 
         return changed;
 
@@ -95,12 +109,12 @@ export default function Board(props) {
     axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
      .then(resp => {
        console.log('call update at '+  new Date().toLocaleString());
-       console.log(resp.data.game);
+       //console.log(resp.data.game);
        let game = resp.data.game;
        let changed = updateFromApi(game);
-       console.log("changed "+changed);
+       //console.log("changed "+changed);
        if (!changed) {
-            setTimeout(() => updateState(), 5000) // maybe this isn't cleaned properly idk
+            currTimeout = setTimeout(() => updateState(), 5000) // maybe this isn't cleaned properly idk
         }
       }
      )
@@ -112,9 +126,11 @@ export default function Board(props) {
   console.log('inside use effect')
     const timerID = setTimeout(() => updateState(), 200)
     return () => {
-      clearTimeout(timerID)
+      clearTimeout(timerID);
+      if (currTimeout) {
+      clearTimeout(currTimeout);}
     }
-  }, [gameState, players, cards, playedCards, isNarrator]); // call useeffect every time something changes
+  }, [gameState, players, cards, playedCards, isNarrator, phrase]); // call useeffect every time something changes
 
 
 
@@ -128,7 +144,7 @@ export default function Board(props) {
           <Players players={players}/>
         </Grid>
         <Grid item xs={8} sm={10}>
-          <Phrase/>
+          <Phrase phrase={phrase}/>
           <Hand isNarrator={isNarrator} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState}/>
         </Grid>
         <Grid item xs={2} sm={2}>

@@ -16,6 +16,8 @@ const useStyles = makeStyles(() => ({
 export default function CardsPlayed(props) {
   const { cards } = { ...props };
   const classes = useStyles();
+  console.log('played');
+  console.log(cards.length);
  // const [cards, setCards] = React.useState([]);
   //const [roundCompleted, setRoundCompleted] = React.useState(false);
 

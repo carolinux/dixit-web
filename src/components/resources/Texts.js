@@ -7,7 +7,7 @@ export const getTexts = (props) => {
     cardSelectionDialog: {
       question: {
         mainPlayer: 'What is your phrase?',
-        otherPlayers: 'Sure to play this card?'
+        otherPlayers: 'Sure you want to play this card?'
       },
       controls: {
         select: 'All set!',

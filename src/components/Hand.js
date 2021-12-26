@@ -83,11 +83,6 @@ function shouldShowDialog(gameState, isNarrator) {
     return true;
  }
 
-  if (gameState === "waiting_for_votes" && !isNarrator) {
-    return true;
- }
-
-
  return false;
 }
 
@@ -95,13 +90,9 @@ export default function Hand(props) {
   const {isNarrator, player, cards, transitionGame, gameState } = { ...props };
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  //const [cardsPlayed, setCardsPlayed] = useState([]);
-  //const [userPlayed, setUserPlayed] = useState(false);
   const [cardToSelect, setCardToSelect] = useState(undefined);
   const [phrase, setPhrase] = useState('');
   const [formError, setFormError] = useState(false);
-
-
 
 
   const texts = getTexts();
@@ -143,8 +134,10 @@ export default function Hand(props) {
 
     }
     else {
+
+       closeDialog();
        transitionGame('set', playedData);
-       // todo - close dialog here... somehow - update prompt..
+       // todo - somehow - update prompt..
     }
 
   }

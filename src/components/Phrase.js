@@ -13,21 +13,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Phrase(props) {
-  const { apiUrl } = { ...props };
+  const { phrase } = { ...props };
   const classes = useStyles();
-  const [phrase, setPhrase] = React.useState('');
-  
-  // Fetch phrase
-  React.useEffect(() => {
-    const fetchData = async () => {
-      axios.get(`${apiUrl}/playedCards`)
-        .then(res => {
-          const data = res && res.data && res.data.phrase;
-          setPhrase(data);
-        })
-    };
-    //fetchData();
-  }, []);
 
   return (
     <Fragment>
