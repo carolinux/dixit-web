@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-function determine_prompt(gameState, isNarrator) {
+function determinePrompt(gameState, isNarrator) {
 
 
     if (gameState === "waiting_for_narrator" && isNarrator) {
@@ -50,12 +50,46 @@ function determine_prompt(gameState, isNarrator) {
     return "Waiting for narrator to choose";
     }
 
+    if (gameState === "waiting_for_players" && isNarrator) {
+    return "Waiting for the other players to choose their decoys.";
+    }
+    if (gameState === "waiting_for_players" && !isNarrator) {
+    return "Choose a decoy card!";
+    }
+
+     if (gameState === "waiting_for_votes" && isNarrator) {
+    return "Waiting for the other players to cast their votes.";
+    }
+    if (gameState === "waiting_for_votes" && !isNarrator) {
+    return "Vote the card that you think matches the phrase!";
+    }
+
     return gameState;
 
 
 
 
 };
+
+
+function shouldShowDialog(gameState, isNarrator) {
+
+
+ if (gameState === "waiting_for_narrator" && isNarrator) {
+    return true;
+ }
+
+  if (gameState === "waiting_for_players" && !isNarrator) {
+    return true;
+ }
+
+  if (gameState === "waiting_for_votes" && !isNarrator) {
+    return true;
+ }
+
+
+ return false;
+}
 
 export default function Hand(props) {
   const {isNarrator, player, cards, transitionGame, gameState } = { ...props };
@@ -75,7 +109,8 @@ export default function Hand(props) {
   const question = isNarrator ? texts.cardSelectionDialog.question.mainPlayer
     : texts.cardSelectionDialog.question.otherPlayers;
 
-   const prompt = determine_prompt(gameState, isNarrator);
+   const prompt = determinePrompt(gameState, isNarrator);
+   const showDialog = shouldShowDialog(gameState, isNarrator);
 
 
 
@@ -118,16 +153,23 @@ export default function Hand(props) {
     setPhrase(value);
   }
 
+
   return (
     <Fragment>
       <div className={classes.root}>
-        {cards.map((card) =>
+        {showDialog && cards.map((card) =>
           <Button key={card} onClick={() => play(card)}>
             <HandCard card={card} />
           </Button>)
         }
 
-        <Dialog
+        {!showDialog && cards.map((card) =>
+         <Button key={card}>
+            <HandCard card={card} />
+          </Button>)
+        }
+
+        {showDialog && <Dialog
           open={open}
           onClose={closeDialog}>
 
@@ -155,11 +197,11 @@ export default function Hand(props) {
             <Button onClick={closeDialog} color='secondary'>
               <ClearIcon />
             </Button>
-            <Button onClick={ completeHand } color='secondary' disabled={!isNarrator}>
+            <Button onClick={ completeHand } color='secondary'>
               <CheckIcon style={{ fill: '#39ff14' }}/>
             </Button>
           </DialogActions>
-        </Dialog>
+        </Dialog>}
        <Fragment>
         <Typography variant='h6' className={classes.dialog}>
          {prompt}
