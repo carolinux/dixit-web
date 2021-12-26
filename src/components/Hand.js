@@ -50,7 +50,7 @@ function determine_prompt(gameState, isNarrator) {
     return "Waiting for narrator to choose";
     }
 
-    return "";
+    return gameState;
 
 
 
@@ -101,14 +101,14 @@ export default function Hand(props) {
         //setPhrase('');
         closeDialog();
         playedData = { ...playedData, phrase: phrase }
-        transitionGame('select', playedData);
+        transitionGame('set', playedData);
       } else {
         setFormError(true);
       }
 
     }
     else {
-       transitionGame('select', playedData);
+       transitionGame('set', playedData);
     }
 
   }

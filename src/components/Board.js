@@ -37,35 +37,16 @@ export default function Board(props) {
   const [players, setPlayers] = useState([{name: ''}]);
   const [gameState, setGameState] = useState('');
   const [cards, setCards] = useState([]);
+  const [isNarrator, setIsNarrator] = useState(false);
+
 
 
   const roundCompleted = true;
   const playerPlayed = false;
 
-  const transitionGame = (transition, transition_data) => {
+  const updateFromApi = (game) => {
 
-   axiosWithCookies.put(process.env.REACT_APP_API_URL+ '/games/' + gid + '/' + transition)
-     .then(resp => {
-       let game = resp.data.game;
-       if (JSON.stringify(players) !=  JSON.stringify(game.playerList)) {
-            setPlayers(game.playerList);
-       }
-       if (game.state != gameState) {
-            setGameState(game.state);
-        }
-       if (JSON.stringify(cards) !=  JSON.stringify(game.roundInfo.cards)) {
-            setCards(game.roundInfo.cards);
-       }
-     });
-  }
-
-  const updateState = async () => {
-    axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
-     .then(resp => {
-       console.log('call update at '+  new Date().toLocaleString());
-       console.log(resp.data.game);
-       let game = resp.data.game;
-       let changed = false;
+         let changed = false;
 
        if (JSON.stringify(players) !=  JSON.stringify(game.playerList)) {
             setPlayers(game.playerList);
@@ -81,11 +62,40 @@ export default function Board(props) {
             changed = true;
         }
 
-        console.log("changed "+changed);
-        if (!changed) {
+        if (game.isNarrator != isNarrator) {
+            setIsNarrator(game.isNarrator);
+            changed = true;
+        }
+
+        return changed;
+
+  }
+
+  const transitionGame = (transition, transitionData) => {
+
+  if (transitionData === undefined) {
+    transitionData = {};
+  }
+
+   axiosWithCookies.put(process.env.REACT_APP_API_URL+ '/games/' + gid + '/' + transition, transitionData)
+     .then(resp => {
+       let game = resp.data.game;
+       updateFromApi(game);
+     });
+  };
+
+  const updateState = async () => {
+    axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/' + gid)
+     .then(resp => {
+       console.log('call update at '+  new Date().toLocaleString());
+       console.log(resp.data.game);
+       let game = resp.data.game;
+       let changed = updateFromApi(game);
+       console.log("changed "+changed);
+       if (!changed) {
             setTimeout(() => updateState(), 5000) // maybe this isn't cleaned properly idk
         }
-        }
+      }
      )
 
   };
@@ -97,7 +107,7 @@ export default function Board(props) {
     return () => {
       clearTimeout(timerID)
     }
-  }, [gameState, players, cards]); // call useeffect every time something changes
+  }, [gameState, players, cards, isNarrator]); // call useeffect every time something changes
 
 
 
@@ -112,7 +122,7 @@ export default function Board(props) {
         </Grid>
         <Grid item xs={8} sm={10}>
           <Phrase/>
-          <Hand isNarrator={true} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState}/>
+          <Hand isNarrator={isNarrator} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState}/>
         </Grid>
         <Grid item xs={2} sm={2}>
         <Typography variant='body2' className={classes.title}>
