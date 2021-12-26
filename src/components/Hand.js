@@ -144,6 +144,7 @@ export default function Hand(props) {
     }
     else {
        transitionGame('set', playedData);
+       // todo - close dialog here... somehow - update prompt..
     }
 
   }

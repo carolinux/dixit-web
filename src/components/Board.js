@@ -34,9 +34,11 @@ export default function Board(props) {
   const mainPlayer = Cookies.get('player');
   const classes = useStyles();
   console.log("Game "+gid+" for player "+mainPlayer);
+
   const [players, setPlayers] = useState([{name: ''}]);
   const [gameState, setGameState] = useState('');
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState([]); // cards in hand
+  const [playedCards, setPlayedCards] = useState([]); // cards active in round
   const [isNarrator, setIsNarrator] = useState(false);
 
 
@@ -53,8 +55,13 @@ export default function Board(props) {
             changed = true;
        }
 
-       if (JSON.stringify(cards) !=  JSON.stringify(game.roundInfo.cards)) {
-            setCards(game.roundInfo.cards);
+       if (JSON.stringify(cards) !=  JSON.stringify(game.roundInfo.hand)) {
+            setCards(game.roundInfo.hand);
+            changed = true;
+       }
+
+         if (JSON.stringify(playedCards) !=  JSON.stringify(game.roundInfo.playedCards)) {
+            setPlayedCards(game.roundInfo.playedCards);
             changed = true;
        }
        if (game.state != gameState) {
@@ -107,7 +114,7 @@ export default function Board(props) {
     return () => {
       clearTimeout(timerID)
     }
-  }, [gameState, players, cards, isNarrator]); // call useeffect every time something changes
+  }, [gameState, players, cards, playedCards, isNarrator]); // call useeffect every time something changes
 
 
 
@@ -115,7 +122,7 @@ export default function Board(props) {
     <Container>
       <Grid container>
         <Grid item xs={12} className={classes.cardsPlayed}>
-           <CardsPlayed mainPlayer={mainPlayer} />
+           <CardsPlayed cards={playedCards} />
         </Grid>
         <Grid item xs={2} sm={2}>
           <Players players={players}/>

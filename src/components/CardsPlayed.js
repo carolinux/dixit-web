@@ -14,30 +14,15 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function CardsPlayed(props) {
-  const { apiUrl, mainPlayer } = { ...props };
+  const { cards } = { ...props };
   const classes = useStyles();
-  const [cards, setCards] = React.useState([]);
-  const [roundCompleted, setRoundCompleted] = React.useState(false);
-   
-  // Fetch cards per player
-  React.useEffect(() => {
-    const fetchData = async () => {
-      axios.get(`${apiUrl}/playedCards`)
-        .then(res => {
-          const roundCards = res && res.data && res.data.cards;
-          const completed = res && res.data && res.data.roundCompleted;
-          
-          setCards(roundCards);
-          setRoundCompleted(completed);
-        })
-    };
-    //fetchData();
-  }, []);
+ // const [cards, setCards] = React.useState([]);
+  //const [roundCompleted, setRoundCompleted] = React.useState(false);
+
 
   return (
     <div className={classes.root}>
-      { cards.map((card) => (<GameCard key={card} card={card} open={false}
-        roundCompleted={roundCompleted} mainPlayer={mainPlayer} apiUrl={apiUrl} />)) }
+      { cards.map((card) => (<GameCard key={card} card={card} open={false} />)) }
     </div>
   )
 }

@@ -3,15 +3,22 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
+import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles((theme) => ({
+
+  card: {
+    width: 160,
+    height: 224,
+  },
   image: {
     position: 'relative',
-    height: 200,
+    height: 224,
     margin: 5,
     [theme.breakpoints.down('xs')]: {
       width: '100% !important', // Overrides inline-style
-      height: 200,
+      height: 224,
     },
     '&:hover, &$focusVisible': {
       zIndex: 1,
@@ -78,77 +85,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GameCard(props) {
-  const { card, open, mainPlayer, roundCompleted, apiUrl } = { ...props };
+  const { card, open } = { ...props };
 
   const classes = useStyles();
-  const pictureUrl = `url(${`/resources/pictures/cards/${card}.jpg`})`;
-  const defaultPictureUrl = `url(${`./resources/pictures/cards/0.jpg`})`;
+  const pictureUrl = `http://127.0.0.1:3000/resources/pictures/cards/medusa/${card}.jpg`;
   const [cardOpen, setCardOpen] = React.useState(open);
-  const [cardPicture, setCardPicture] = React.useState(defaultPictureUrl);
+ // const [cardPicture, setCardPicture] = React.useState(defaultPictureUrl);
 
-  // TODO: Pass this from the backend via web sockets
   const votingEnabled = false;
-  
-  const vote = () => {
-    const postData = async (data) => {
-      axios.post(`${apiUrl}/vote`, { ...data })
-        .then(res => {
-          console.log('Voted', res)
-        })
-    };
-    postData({card: card})
-  }
 
   const flipCard = () => {
     setCardOpen(!cardOpen)
   }
-
-  const selectCard = () => {
-    if(!!roundCompleted) {
-      if(!!mainPlayer) {
-        flipCard()
-      } else {
-        // TODO: Implement voting: POST request to the API
-        vote();
-      }
-    }
-  }
-
-  React.useEffect(() => {
-    let picture = defaultPictureUrl;
-    if(!!cardOpen) {
-      picture = pictureUrl
-    }
-    setCardPicture(picture);
-  }, [cardOpen])
+console.log('000')
+ console.log(pictureUrl);
 
   return (
-    <ButtonBase onClick={selectCard}
-      focusRipple
-      className={classes.image}
-      focusVisibleClassName={classes.focusVisible}
-      style={{
-        width: 200,
-        height: 270,
-      }}
-    >
-      <span
-        className={classes.imageSrc}
-        style={{
-          backgroundImage: cardPicture,
-        }}
-      />
-      <span className={classes.imageBackdrop} />
-      { !mainPlayer && !!votingEnabled && <span className={classes.imageButton}>
-        <Typography
-          component='span'
-          color='inherit'
-          className={classes.imageTitle}
-        >
-          {'Vote'}
-          <span className={classes.imageMarked} />
-        </Typography>
-      </span> }
-    </ButtonBase>
+
+    <Card raised className={ classes.cardContainer }>
+      <CardMedia
+        className={ classes.card }
+        image={ pictureUrl } />
+    </Card>
+
   );
 }
