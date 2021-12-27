@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => ({
   phrase: {
     fontFamily: 'Lobster',
     textAlign: 'center',
-    color: '#f5f6b1',
+    color: 'purple',
     fontStyle: 'italic'
   }
 }));

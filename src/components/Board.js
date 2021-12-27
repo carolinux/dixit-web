@@ -123,7 +123,10 @@ export default function Board(props) {
       }
      )
     .catch(function (error) {
-    console.log(error.toJSON());
+    console.log(error.response);
+    if (error.response.status === 404 || error.response.status === 401 || error.response.status === 403) {
+        return
+    }
     currTimeout = setTimeout(() => updateState(), 5000);
   })
 

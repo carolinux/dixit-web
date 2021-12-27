@@ -1,7 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import GameCard from './GameCard';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import HandCard from './HandCard';
@@ -72,6 +71,11 @@ export default function CardsPlayed(props) {
 
 
   }
+  const cancelSelection = () => {
+
+    setCardToSelect(undefined);
+    closeDialog();
+  }
 
 
   return (
@@ -79,7 +83,7 @@ export default function CardsPlayed(props) {
       <div className={classes.root}>
         {showDialog && cards.map((card, i) =>
           <Button key={card+'_'+i} onClick={() => play(card)}>
-            <HandCard card={card} />
+            <HandCard card={card} selected={card === cardToSelect} />
           </Button>)
         }
 
@@ -105,7 +109,7 @@ export default function CardsPlayed(props) {
           </Fragment>
 
           <DialogActions className={classes.controls}>
-            <Button onClick={closeDialog} color='secondary'>
+            <Button onClick={cancelSelection} color='secondary'>
               <ClearIcon />
             </Button>
             <Button onClick={castVote} color='secondary'>
