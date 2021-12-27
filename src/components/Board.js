@@ -103,7 +103,10 @@ export default function Board(props) {
      .then(resp => {
        let game = resp.data.game;
        updateFromApi(game);
-     });
+     })
+     .catch(function (error) {
+    console.log(error.toJSON());
+  })
   };
 
   const updateState = async () => {
@@ -115,10 +118,14 @@ export default function Board(props) {
        let changed = updateFromApi(game);
        //console.log("changed "+changed);
        if (!changed) {
-            currTimeout = setTimeout(() => updateState(), 5000) // maybe this isn't cleaned properly idk
+            currTimeout = setTimeout(() => updateState(), 5000)
         }
       }
      )
+    .catch(function (error) {
+    console.log(error.toJSON());
+    currTimeout = setTimeout(() => updateState(), 5000);
+  })
 
   };
 
