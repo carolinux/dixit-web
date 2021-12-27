@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { getTexts } from './resources/Texts';
@@ -44,7 +44,7 @@ export default function Login(props) {
 
   const {updatePlayer} = {...props};
 
-  const [playerName, setPlayerName] = useState('carolinux');
+  const [playerName, setPlayerName] = useState('');
   const [usedName, setUsedName] = useState(false);
   const [formError, setFormError] = useState(false);
   const [gameId, setGameId] = useState('new')
@@ -78,12 +78,43 @@ export default function Login(props) {
   const updateName = (event) => {
     const name = event && event.target && event.target.value;
     if (!name) {
+    console.log('setting form error')
       setFormError(true);
+      setPlayerName(name);
     } else {
       setPlayerName(name);
       setFormError(false);
     }
   }
+
+
+  const tryResumeFromCookie = () => {
+
+
+    axiosWithCookies.get(process.env.REACT_APP_API_URL+ '/games/resume')
+      .then(res => {
+        console.log(res.data);
+        console.log("Resume?")
+        updatePlayer(res.data['player']);
+        history.push('/board/'+res.data['game']);
+      })
+    .catch(function (error) {
+    console.log(error.toJSON());
+    })
+
+  }
+
+
+  useEffect(() => {
+    console.log('inside use effect');
+    tryResumeFromCookie();
+    return;
+  }, []); // call useeffect every time something changes
+
+
+
+
+
 
   const updateGame = (gid) => setGameId(gid);
 

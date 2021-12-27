@@ -53,35 +53,35 @@ export default function Board(props) {
          let changed = false;
          console.log(game.roundInfo.hand);
 
-       if (JSON.stringify(players) !=  JSON.stringify(game.playerList)) {
+       if (JSON.stringify(players) !==  JSON.stringify(game.playerList)) {
             setPlayers(game.playerList);
                         //console.log('pl');
             changed = true;
        }
 
-       if (JSON.stringify(cards) !=  JSON.stringify(game.roundInfo.hand)) {
+       if (JSON.stringify(cards) !==  JSON.stringify(game.roundInfo.hand)) {
             setCards(game.roundInfo.hand);
                         //console.log('ha');
             changed = true;
        }
 
-         if (JSON.stringify(playedCards) !=  JSON.stringify(game.roundInfo.playedCards)) {
+         if (JSON.stringify(playedCards) !==  JSON.stringify(game.roundInfo.playedCards)) {
             setPlayedCards(game.roundInfo.playedCards);
                         //console.log('cards');
             changed = true;
        }
-       if (game.state != gameState) {
+       if (game.state !== gameState) {
                   // console.log('st');
             setGameState(game.state); // this re-renders the component....
             changed = true;
         }
 
-        if (game.isNarrator != isNarrator) {
+        if (game.isNarrator !== isNarrator) {
                     //console.log('narr');
             setIsNarrator(game.isNarrator);
             changed = true;
         }
-        if (game.roundInfo.phrase != phrase) {
+        if (game.roundInfo.phrase !== phrase) {
             setPhrase(game.roundInfo.phrase);
             //console.log('phrase');
             changed = true;
