@@ -137,9 +137,15 @@ export default function Board(props) {
   return (
     <Container>
       <Grid container>
-        <Grid item xs={12} className={classes.cardsPlayed}>
-           <CardsPlayed cards={playedCards} />
+
+         <Grid item xs={2} sm={2}>
+          PLACEHOLDER
         </Grid>
+
+        <Grid item xs={8} sm={10} className={classes.cardsPlayed}>
+           <CardsPlayed cards={playedCards} gameState={gameState} />
+        </Grid>
+
         <Grid item xs={2} sm={2}>
           <Players players={players}/>
         </Grid>

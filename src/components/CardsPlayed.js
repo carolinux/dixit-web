@@ -9,22 +9,34 @@ const useStyles = makeStyles(() => ({
     flexWrap: 'wrap',
     minWidth: 1500,
     minHeight: 224,
-    width: '100%'
+    width: '50%',
+    justifyContent: 'left'
   }
 }));
 
 export default function CardsPlayed(props) {
-  const { cards } = { ...props };
+  const { cards, gameState } = { ...props };
   const classes = useStyles();
   console.log('played');
   console.log(cards.length);
- // const [cards, setCards] = React.useState([]);
-  //const [roundCompleted, setRoundCompleted] = React.useState(false);
+
+  const openDialog = () => {
+    setOpen(true);
+  };
+
+  const closeDialog = () => {
+    setOpen(false);
+  };
+
+  const play = (card) => {
+    !!card && setCardToSelect(card);
+    openDialog();
+  }
 
 
   return (
     <div className={classes.root}>
-      { cards.map((card) => (<GameCard key={card} card={card} open={false} />)) }
+      { cards.map((card, i) => (<GameCard key={card+i} card={card} open={false} />)) }
     </div>
   )
 }
