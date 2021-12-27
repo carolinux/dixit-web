@@ -118,7 +118,7 @@ export default function Hand(props) {
     openDialog();
   }
 
-  const completeHand = () => {
+  const selectCard = () => {
     let playedData = { card: cardToSelect};
     console.log('phrase: ' + phrase);
     if (isNarrator) {
@@ -151,15 +151,15 @@ export default function Hand(props) {
   return (
     <Fragment>
       <div className={classes.root}>
-        {showDialog && cards.map((card) =>
-          <Button key={card} onClick={() => play(card)}>
-            <HandCard card={card} />
+        {showDialog && cards.map((card, i) =>
+          <Button key={card+'_'+i} onClick={() => play(card)}>
+            <HandCard card={card} selected={false}/>
           </Button>)
         }
 
-        {!showDialog && cards.map((card) =>
-         <Button key={card}>
-            <HandCard card={card} />
+        {!showDialog && cards.map((card, i) =>
+         <Button key={card+"_"+i}>
+            <HandCard card={card} selected={false}/>
           </Button>)
         }
 
@@ -191,7 +191,7 @@ export default function Hand(props) {
             <Button onClick={closeDialog} color='secondary'>
               <ClearIcon />
             </Button>
-            <Button onClick={ completeHand } color='secondary'>
+            <Button onClick={ selectCard } color='secondary'>
               <CheckIcon style={{ fill: '#39ff14' }}/>
             </Button>
           </DialogActions>

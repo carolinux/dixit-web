@@ -45,7 +45,8 @@ export const getTexts = (props) => {
       about: 'About'
     },
     stateTransitions: {
-      start: 'Start the first round!'
+      start: 'Start the first round!',
+      next: 'Start the next round!'
 
     }
   }

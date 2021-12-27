@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function HandCard(props) {
-  const { card } = { ...props };
+  const { card, selected } = { ...props };
   const pictureUrl = `http://127.0.0.1:3000/resources/pictures/cards/medusa/${card}.jpg`;
   const classes = useStyles();
 

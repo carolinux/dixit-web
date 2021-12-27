@@ -51,6 +51,7 @@ export default function Board(props) {
   const updateFromApi = (game) => {
 
          let changed = false;
+         console.log(game.roundInfo.hand);
 
        if (JSON.stringify(players) !=  JSON.stringify(game.playerList)) {
             setPlayers(game.playerList);
@@ -143,7 +144,7 @@ export default function Board(props) {
         </Grid>
 
         <Grid item xs={8} sm={10} className={classes.cardsPlayed}>
-           <CardsPlayed cards={playedCards} gameState={gameState} />
+           <CardsPlayed cards={playedCards} gameState={gameState} isNarrator={isNarrator} transitionGame={transitionGame}/>
         </Grid>
 
         <Grid item xs={2} sm={2}>
@@ -159,6 +160,10 @@ export default function Board(props) {
         </Typography>
         {gameState==="waiting_to_start" && <Button size='small' color='primary' onClick={() => transitionGame('start')} className={classes.control}>
           {texts.stateTransitions.start}
+        </Button>
+        }
+        {gameState==="round_revealed" && <Button size='small' color='primary' onClick={() => transitionGame('next')} className={classes.control}>
+          {texts.stateTransitions.next}
         </Button>
         }
         </Grid>

@@ -4,6 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import SportsEsportsOutlinedIcon from '@material-ui/icons/SportsEsportsOutlined';
+import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -34,7 +35,8 @@ export default function Players(props) {
     { players.map(player =>
     <ListItem className={classes.players} key={player.name}>
       <ListItemIcon className={classes.players}><SportsEsportsOutlinedIcon  style={{ fill: 'green' }}/></ListItemIcon>
-      {player.name}
+      {player.name}: {player.score}
+       {player.isNarrator && <ArrowBack style={{ fill: 'green' }}/>}
     </ListItem> )}
   </List>
   </Fragment>
