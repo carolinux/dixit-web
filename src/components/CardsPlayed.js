@@ -35,6 +35,14 @@ const useStyles = makeStyles(() => ({
   },
    controls: {
     justifyContent: 'center'
+  },
+   text: {
+    fontFamily: 'Lobster',
+    //textAlign: 'center',
+    //justifySelf: 'center',
+    position: 'relative',
+   // bottom: 300,
+    left: '50%',
   }
 }));
 
@@ -123,7 +131,7 @@ export default function CardsPlayed(props) {
             </Button>
           </DialogActions>
         </Dialog>}
-        {cards.length ==0 && <Typography>Cards will appear here when played</Typography>}
+        {cards.length ==0 && <div className={classes.text}>Cards will appear here when played</div>}
       </div>
     </Fragment>
   )

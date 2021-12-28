@@ -31,10 +31,11 @@ const useStyles = makeStyles(() => ({
   },
 
     grid: {
-        fontFamily: 'Lobster',
+    minWidth: 200,
+    fontFamily: 'Lobster',
     textAlign: 'center',
-    backgroundColor: 'rgba(173, 138, 86, 0.3)',
-    borderRadius: '25px',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: '12px',
     border: '2px solid #6a3805',
     //borderRight: 1
   },
@@ -179,11 +180,11 @@ export default function Board(props) {
 
   return (
     <Container>
-      <Grid container spacing={2}>
+      <Grid container>
 
          <Grid item xs={2} sm={2}>
        <Typography variant='h3' className={[classes.cardsPlayed, classes.grid]}>
-          GAME BOARD
+          BOARD >
         </Typography>
         </Grid>
 
@@ -191,7 +192,7 @@ export default function Board(props) {
            <CardsPlayed cards={playedCards} gameState={gameState} isNarrator={isNarrator} transitionGame={transitionGame}  cardStatuses={cardStatuses}/>
         </Grid>
 
-        <Grid item xs={2} sm={2} className={classes.grid}  sx={{ borderRight: 10 }} >
+        <Grid item xs={2} sm={2} className={classes.grid} >
           <Players players={players}/>
         </Grid>
 
