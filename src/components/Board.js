@@ -35,10 +35,23 @@ const useStyles = makeStyles(() => ({
     fontFamily: 'Lobster',
     textAlign: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    borderRadius: '12px',
-    border: '2px solid #6a3805',
+    //borderRadius: '12px',
+
     //borderRight: 1
   },
+
+  gridbl : {
+      borderRight: '2px solid #6a3805',
+
+  },
+  gridtl : {
+      borderRight: '2px solid #6a3805',
+      borderBottom: '2px solid #6a3805',
+
+  },
+   gridtr : {
+      borderBottom: '2px solid #6a3805',
+  }
 }));
 
 
@@ -83,6 +96,11 @@ export default function Board(props) {
        if (game.state !== gameState) {
             if (game.state == 'game_ended') {
                 history.push('/board/'+gid+'/winners');
+            }
+            else if (game.state =='round_revealed') {
+                let audio = new Audio('http://127.0.0.1:3000/resources/sounds/reveal.mp3');
+                audio.play()
+
             }
             setGameState(game.state); // this re-renders the component....
             changed = true;
@@ -183,21 +201,21 @@ export default function Board(props) {
       <Grid container>
 
          <Grid item xs={2} sm={2}>
-       <Typography variant='h3' className={[classes.cardsPlayed, classes.grid]}>
+       <Typography variant='h3' className={[classes.cardsPlayed, classes.grid, classes.gridtl]}>
           BOARD >
         </Typography>
         </Grid>
 
-        <Grid item xs={8} sm={10} className={[classes.cardsPlayed, classes.grid]}>
+        <Grid item xs={8} sm={10} className={[classes.cardsPlayed, classes.grid, classes.gridtr]}>
            <CardsPlayed cards={playedCards} gameState={gameState} isNarrator={isNarrator} transitionGame={transitionGame}  cardStatuses={cardStatuses}/>
         </Grid>
 
-        <Grid item xs={2} sm={2} className={classes.grid} >
+        <Grid item xs={2} sm={2} className={[classes.grid, classes.gridbl]} >
           <Players players={players}/>
         </Grid>
 
 
-        <Grid item xs={8} sm={10} className={classes.grid}>
+        <Grid item xs={8} sm={10} className={[classes.grid]}>
           <Phrase phrase={phrase}/>
           <Hand isNarrator={isNarrator} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState} cardStatuses={cardStatuses}/>
         </Grid>

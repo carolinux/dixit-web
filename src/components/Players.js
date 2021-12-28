@@ -33,7 +33,7 @@ export default function Players(props) {
   </Typography>
   <List>
     { players.map(player =>
-    <ListItem className={classes.players} key={player.name}>
+    <ListItem className={classes.players} key={player.name} style={{ 'background-color': 'white' }}>
       <ListItemIcon className={classes.players}><SportsEsportsOutlinedIcon  style={{ fill: 'green' }}/></ListItemIcon>
       {player.name}: {player.score} {player.roundScore>0 && <span>(+{player.roundScore})</span> }
        {player.isNarrator && <ArrowBack style={{ fill: 'green' }}/>}
