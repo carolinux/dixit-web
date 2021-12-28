@@ -11,6 +11,9 @@ import axios from 'axios';
 import { useHistory, useParams } from "react-router-dom";
 import { getTexts } from './resources/Texts';
 import Typography from '@material-ui/core/Typography';
+import revealSound from './assets/sounds/reveal.mp3'
+import phraseSound from './assets/sounds/phrase.mp3'
+import startSound from './assets/sounds/start.mp3'
 
 
 const useStyles = makeStyles(() => ({
@@ -66,7 +69,9 @@ export default function Board(props) {
   const [mainPlayer, setMainPlayer] = useState('')
 
   const classes = useStyles();
-  //console.log("Game "+gid+" for player "+mainPlayer);
+  const audioReveal = new Audio(revealSound);
+  const audioPhrase = new Audio(phraseSound);
+  const audioStart = new Audio(startSound);
 
   const [players, setPlayers] = useState([]);
   const [gameState, setGameState] = useState('');
@@ -94,13 +99,15 @@ export default function Board(props) {
         }
 
        if (game.state !== gameState) {
-            if (game.state == 'game_ended') {
+            if (game.state === 'game_ended') {
                 history.push('/board/'+gid+'/winners');
             }
-            else if (game.state =='round_revealed') {
-                let audio = new Audio('http://127.0.0.1:3000/resources/sounds/reveal.mp3');
-                audio.play()
+            else if (game.state === 'round_revealed') {
+                audioReveal.play()
 
+            }
+            else if (game.state === 'waiting_for_players' || game.state === "waiting_for_votes") {
+                audioPhrase.play()
             }
             setGameState(game.state); // this re-renders the component....
             changed = true;
@@ -147,6 +154,11 @@ export default function Board(props) {
 
   if (transitionData === undefined) {
     transitionData = {};
+  }
+
+  if (transition == 'start' || transition == 'next') {
+
+    audioStart.play();
   }
 
    axiosWithCookies.put(process.env.REACT_APP_API_URL+ '/games/' + gid + '/' + transition, transitionData)

@@ -12,6 +12,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
+import clickCardSound from './assets/sounds/playCard.mp3'
+import clickCardErrorSound from './assets/sounds/error.mp3'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -51,8 +53,8 @@ export default function CardsPlayed(props) {
    const [open, setOpen] = useState(false);
   const [cardToSelect, setCardToSelect] = useState(undefined);
   const classes = useStyles();
-  //console.log('played');
-  //console.log(cards.length);
+  const audio = new Audio(clickCardSound);
+  const audioError = new Audio(clickCardErrorSound);
 
   const openDialog = () => {
     setOpen(true);
@@ -65,11 +67,13 @@ export default function CardsPlayed(props) {
   const play = (card) => {
 
     if (cardStatuses && cardStatuses.myPlayed==card) {
+        audioError.play();
         return;
     }
 
 
     !!card && setCardToSelect(card);
+    audio.play();
     console.log('selected card '+card);
     openDialog();
   }
