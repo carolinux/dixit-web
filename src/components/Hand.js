@@ -14,6 +14,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import clickCardSound from './assets/sounds/playCard.mp3'
+import clickCardErrorSound from './assets/sounds/error.mp3'
 
 
 const useStyles = makeStyles(() => ({
@@ -100,6 +101,7 @@ export default function Hand(props) {
 
   const texts = getTexts();
   const audio = new Audio(clickCardSound);
+  const audioError = new Audio(clickCardErrorSound);
 
   const question = isNarrator ? texts.cardSelectionDialog.question.mainPlayer
     : texts.cardSelectionDialog.question.otherPlayers;
@@ -163,7 +165,7 @@ export default function Hand(props) {
         }
 
         {!showDialog && cards.map((card, i) =>
-         <Button key={card+"_"+i}>
+         <Button key={card+"_"+i} onClick={() => audioError.play()}>
             <HandCard card={card}/>
           </Button>)
         }
