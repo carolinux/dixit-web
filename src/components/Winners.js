@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+//import soundfile from '../../public/resources/sounds'
+import Sound from 'react-sound'
+
 
 const options = {
   chart: {
@@ -9,12 +12,12 @@ const options = {
   title: {
     text: 'Score of this game'
   },
-  xAxis: {
+ /* xAxis: {
     categories: ['Jane', 'John', 'Joe'],
     title: {
       text: null
     }
-  },
+  },*/
   yAxis: {
     min: 0,
     title: {
@@ -27,25 +30,32 @@ const options = {
   series: [{
     type: 'column',
     name: 'Jane',
-    data: [3, 2, 1]
+    data: [30]
   }, {
     type: 'column',
-    name: 'John',
-    data: [2, 3, 5]
+    name: 'Lara',
+    data: [20]
   }, {
     type: 'column',
-    name: 'Joe',
-    data: [4, 3, 3]
-  }, {
-    type: 'spline',
-    name: 'Average',
-    data: [3, 2.67, 3]
-  }],
+    name: 'Karolina',
+    data: [14]
+  }
+  ],
   credits: {
     enabled: false
   }
 };
 
 export default function Winners() {
-  return (<HighchartsReact highcharts={Highcharts} options={options} />)
+
+
+
+  return (<div><HighchartsReact highcharts={Highcharts} options={options} />
+      <Sound
+      url="http://127.0.0.1:3000/resources/sounds/ending.mp3"
+      playStatus={Sound.status.PLAYING}
+    />
+    </div>
+
+  )
 }
