@@ -9,7 +9,6 @@ import Players from './Players';
 import Phrase from './Phrase';
 import axios from 'axios';
 import { useHistory, useParams } from "react-router-dom";
-import Cookies from 'js-cookie';
 import { getTexts } from './resources/Texts';
 import Typography from '@material-ui/core/Typography';
 
@@ -18,8 +17,6 @@ const useStyles = makeStyles(() => ({
   cardsPlayed: {
     minHeight: 270
   },
-
-
 }));
 
 
@@ -31,7 +28,7 @@ export default function Board(props) {
 });
 
   const {gid } = useParams();
-  const mainPlayer = Cookies.get('player');
+  const [mainPlayer, setMainPlayer] = useState('')
   const classes = useStyles();
   console.log("Game "+gid+" for player "+mainPlayer);
 
@@ -53,6 +50,21 @@ export default function Board(props) {
          let changed = false;
          console.log(game.roundInfo.hand);
 
+
+        if (game.player !== mainPlayer) {
+            setMainPlayer(game.player);
+            changed = true;
+        }
+
+       if (game.state !== gameState) {
+            if (game.state == 'game_ended') {
+                history.push('/board/'+gid+'/winners');
+            }
+            setGameState(game.state); // this re-renders the component....
+            changed = true;
+        }
+
+
        if (JSON.stringify(players) !==  JSON.stringify(game.playerList)) {
             setPlayers(game.playerList);
                         //console.log('pl');
@@ -70,11 +82,6 @@ export default function Board(props) {
                         //console.log('cards');
             changed = true;
        }
-       if (game.state !== gameState) {
-                  // console.log('st');
-            setGameState(game.state); // this re-renders the component....
-            changed = true;
-        }
 
         if (game.isNarrator !== isNarrator) {
                     //console.log('narr');
@@ -86,11 +93,7 @@ export default function Board(props) {
             //console.log('phrase');
             changed = true;
         }
-
-
-
         return changed;
-
   }
 
   const transitionGame = (transition, transitionData) => {
@@ -124,7 +127,7 @@ export default function Board(props) {
      )
     .catch(function (error) {
     console.log(error.response);
-    if (error.response.status === 404 || error.response.status === 401 || error.response.status === 403) {
+    if (error.response && (error.response.status === 404 || error.response.status === 401 || error.response.status === 403)) {
         return
     }
     currTimeout = setTimeout(() => updateState(), 5000);
