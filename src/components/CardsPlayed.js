@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function CardsPlayed(props) {
-  const { cards, gameState, isNarrator, transitionGame} = { ...props };
+  const { cards, gameState, isNarrator, transitionGame, cardStatuses} = { ...props };
    const [open, setOpen] = useState(false);
   const [cardToSelect, setCardToSelect] = useState(undefined);
   const classes = useStyles();
@@ -83,13 +83,13 @@ export default function CardsPlayed(props) {
       <div className={classes.root}>
         {showDialog && cards.map((card, i) =>
           <Button key={card+'_'+i} onClick={() => play(card)}>
-            <HandCard card={card} selected={card === cardToSelect} />
+            <HandCard card={card} cardStatuses={cardStatuses} gameState={gameState} />
           </Button>)
         }
 
         {!showDialog && cards.map((card,i) =>
          <Button key={card+"_"+i}>
-            <HandCard card={card} selected={card === cardToSelect} />
+            <HandCard card={card} cardStatuses={cardStatuses} gameState={gameState} />
           </Button>)
         }
 
@@ -117,6 +117,7 @@ export default function CardsPlayed(props) {
             </Button>
           </DialogActions>
         </Dialog>}
+        {cards.length ==0 && <Typography>Cards will appear here when played</Typography>}
       </div>
     </Fragment>
   )

@@ -13,20 +13,28 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function HandCard(props) {
-  const { card, selected } = { ...props };
+  const { card, cardStatuses, gameState } = { ...props };
   const pictureUrl = `http://127.0.0.1:3000/resources/pictures/cards/medusa/${card}.jpg`;
   const classes = useStyles();
-  console.log("isSelected");
-  console.log(selected);
+
 
   return (
     <Card raised className={ classes.cardContainer }>
       <CardMedia
         className={ classes.card }
         image={ pictureUrl } />
-               {selected &&     <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                My Vote
+               {cardStatuses && cardStatuses.myPlayed  && cardStatuses.myPlayed === card && gameState === "waiting_for_votes" &&
+                <CardContent>
+              <Typography style={{ fontFamily: 'Lobster' }}>
+               my card
+              </Typography>
+
+            </CardContent>}
+
+                {cardStatuses && cardStatuses.myVoted  && cardStatuses.myVoted === card && gameState === "waiting_for_votes" &&
+                <CardContent>
+              <Typography style={{ fontFamily: 'Lobster' }}>
+               my vote
               </Typography>
 
             </CardContent>}

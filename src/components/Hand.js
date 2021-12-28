@@ -153,13 +153,13 @@ export default function Hand(props) {
       <div className={classes.root}>
         {showDialog && cards.map((card, i) =>
           <Button key={card+'_'+i} onClick={() => play(card)}>
-            <HandCard card={card} selected={false}/>
+            <HandCard card={card}/>
           </Button>)
         }
 
         {!showDialog && cards.map((card, i) =>
          <Button key={card+"_"+i}>
-            <HandCard card={card} selected={false}/>
+            <HandCard card={card}/>
           </Button>)
         }
 

@@ -15,7 +15,28 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
   cardsPlayed: {
-    minHeight: 270
+    minHeight: 320,
+  },
+  title: {
+    fontFamily: 'Lobster',
+    paddingBottom: 10,
+    color: 'black'
+  },
+
+   vertical: {
+    fontFamily: 'Lobster',
+    paddingBottom: 10,
+    color: 'black',
+    //transform: "rotate(-90deg)"
+  },
+
+    grid: {
+        fontFamily: 'Lobster',
+    textAlign: 'center',
+    backgroundColor: 'rgba(173, 138, 86, 0.3)',
+    borderRadius: '25px',
+    border: '2px solid #6a3805',
+    //borderRight: 1
   },
 }));
 
@@ -29,6 +50,7 @@ export default function Board(props) {
  let history = useHistory();
   const {gid} = useParams();
   const [mainPlayer, setMainPlayer] = useState('')
+
   const classes = useStyles();
   console.log("Game "+gid+" for player "+mainPlayer);
 
@@ -36,6 +58,7 @@ export default function Board(props) {
   const [gameState, setGameState] = useState('');
   const [cards, setCards] = useState([]); // cards in hand
   const [playedCards, setPlayedCards] = useState([]); // cards active in round
+  const [cardStatuses, setCardStatuses] = useState({}); //statuses of cards in round relative to player or players, depending on game state
   const [isNarrator, setIsNarrator] = useState(false);
   const [phrase, setPhrase] = useState('');
   let currTimeout = undefined;
@@ -61,6 +84,11 @@ export default function Board(props) {
                 history.push('/board/'+gid+'/winners');
             }
             setGameState(game.state); // this re-renders the component....
+            changed = true;
+        }
+
+         if (JSON.stringify(game.cardStatuses) !== JSON.stringify(cardStatuses)) {
+            setCardStatuses(game.cardStatuses);
             changed = true;
         }
 
@@ -108,7 +136,7 @@ export default function Board(props) {
        updateFromApi(game);
      })
      .catch(function (error) {
-    console.log(error.toJSON());
+    console.log(error);
   })
   };
 
@@ -126,7 +154,7 @@ export default function Board(props) {
       }
      )
     .catch(function (error) {
-    console.log(error.response);
+    console.log(error);
     if (error.response && (error.response.status === 404 || error.response.status === 401 || error.response.status === 403)) {
         history.push('/')
         return
@@ -151,20 +179,24 @@ export default function Board(props) {
 
   return (
     <Container>
-      <Grid container>
+      <Grid container spacing={2}>
 
          <Grid item xs={2} sm={2}>
-          PLACEHOLDER
+       <Typography variant='h3' className={[classes.cardsPlayed, classes.grid]}>
+          GAME BOARD
+        </Typography>
         </Grid>
 
-        <Grid item xs={8} sm={10} className={classes.cardsPlayed}>
-           <CardsPlayed cards={playedCards} gameState={gameState} isNarrator={isNarrator} transitionGame={transitionGame}/>
+        <Grid item xs={8} sm={10} className={[classes.cardsPlayed, classes.grid]}>
+           <CardsPlayed cards={playedCards} gameState={gameState} isNarrator={isNarrator} transitionGame={transitionGame}  cardStatuses={cardStatuses}/>
         </Grid>
 
-        <Grid item xs={2} sm={2}>
+        <Grid item xs={2} sm={2} className={classes.grid}  sx={{ borderRight: 10 }} >
           <Players players={players}/>
         </Grid>
-        <Grid item xs={8} sm={10}>
+
+
+        <Grid item xs={8} sm={10} className={classes.grid}>
           <Phrase phrase={phrase}/>
           <Hand isNarrator={isNarrator} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState}/>
         </Grid>
