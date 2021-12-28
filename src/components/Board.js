@@ -26,7 +26,7 @@ export default function Board(props) {
   const axiosWithCookies = axios.create({
   withCredentials: true
 });
-
+ let history = useHistory();
   const {gid } = useParams();
   const [mainPlayer, setMainPlayer] = useState('')
   const classes = useStyles();

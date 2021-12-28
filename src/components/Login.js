@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'Lobster',
     paddingBottom: 10,
-    color: '#e094e0'
+    color: 'black'
   },
   paper: {
     height: 350,
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   control: {
     padding: theme.spacing(2),
-    color: '#e094e0'
+    color: 'black'
   },
   form: {
     paddingBottom: 30
@@ -41,9 +41,6 @@ export default function Login(props) {
 
   const texts = getTexts();
   const classes = useStyles();
-
-  const {updatePlayer} = {...props};
-
   const [playerName, setPlayerName] = useState('');
   const [usedName, setUsedName] = useState(false);
   const [formError, setFormError] = useState(false);
@@ -66,7 +63,6 @@ export default function Login(props) {
         axiosWithCookies.post(process.env.REACT_APP_API_URL+ '/games', { player: playerName, game: gameId })
           .then(res => {
             console.log(res.data);
-            updatePlayer(playerName);
             history.push('/board/'+res.data['game']);
           })
       };
@@ -95,7 +91,6 @@ export default function Login(props) {
       .then(res => {
         console.log(res.data);
         console.log("Resume?")
-        updatePlayer(res.data['player']);
         history.push('/board/'+res.data['game']);
       })
     .catch(function (error) {

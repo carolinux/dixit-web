@@ -46,6 +46,6 @@ const options = {
   }
 };
 
-export default function Score() {
+export default function Winners() {
   return (<HighchartsReact highcharts={Highcharts} options={options} />)
 }

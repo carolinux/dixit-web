@@ -4,15 +4,15 @@ import Rules from './Rules';
 import About from './About';
 import Login from './Login';
 import Board from './Board';
+import Winners from './Winners';
 
 function AppContainer(props) {
-  const { mainPlayer, updatePlayer } = { ...props };
 
   return (
     <Router>
       <Switch>
         <Route path='/login'>
-          <Login updatePlayer={updatePlayer}/>
+          <Login/>
         </Route>
         <Route path='/board/:gid/winners'>
           <Winners/>

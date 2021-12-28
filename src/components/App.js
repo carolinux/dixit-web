@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContainer from './AppContainer';
-import Navigation from './Navigation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -13,14 +12,9 @@ const useStyles = makeStyles(() => ({
 
 function App() {
   const classes = useStyles();
-  const [mainPlayer, setMainPlayer] = React.useState(false);
-  const updatePlayer = (name) => setMainPlayer(name);
-  console.log("APPP")
-
   return (
     <div className={classes.root}>
-      <Navigation />
-      <AppContainer updatePlayer={updatePlayer} />
+      <AppContainer/>
     </div>
   );
 }
