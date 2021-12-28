@@ -25,9 +25,9 @@ export default function Board(props) {
   const texts = getTexts();
   const axiosWithCookies = axios.create({
   withCredentials: true
-});
+ });
  let history = useHistory();
-  const {gid } = useParams();
+  const {gid} = useParams();
   const [mainPlayer, setMainPlayer] = useState('')
   const classes = useStyles();
   console.log("Game "+gid+" for player "+mainPlayer);
@@ -128,6 +128,7 @@ export default function Board(props) {
     .catch(function (error) {
     console.log(error.response);
     if (error.response && (error.response.status === 404 || error.response.status === 401 || error.response.status === 403)) {
+        history.push('/')
         return
     }
     currTimeout = setTimeout(() => updateState(), 5000);
