@@ -6,7 +6,7 @@ import { getTexts } from './resources/Texts';
 
 const useStyles = makeStyles(() => ({
   title: {
-    color: 'white',
+    color: 'black',
     fontFamily: 'Lobster',
     textAlign: 'center'
   },

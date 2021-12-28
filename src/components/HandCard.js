@@ -16,6 +16,8 @@ export default function HandCard(props) {
   const { card, cardStatuses, gameState } = { ...props };
   const pictureUrl = `http://127.0.0.1:3000/resources/pictures/cards/medusa/${card}.jpg`;
   const classes = useStyles();
+  console.log("Inside HandCard")
+  console.log(cardStatuses);
 
 
   return (
@@ -35,6 +37,18 @@ export default function HandCard(props) {
                 <CardContent>
               <Typography style={{ fontFamily: 'Lobster' }}>
                my vote
+              </Typography>
+
+            </CardContent>}
+
+            {cardStatuses && cardStatuses.summary  && cardStatuses.summary[card] && gameState === "round_revealed" &&
+                <CardContent>
+              <Typography style={{ fontFamily: 'Lobster' }}>
+
+               {cardStatuses.summary[card].player}'s card
+                  {cardStatuses.summary[card].votes.length>0 && <Typography>Voted by {cardStatuses.summary[card].votes.join(',')}</Typography>}
+
+
               </Typography>
 
             </CardContent>}

@@ -52,7 +52,7 @@ export default function Board(props) {
   const [mainPlayer, setMainPlayer] = useState('')
 
   const classes = useStyles();
-  console.log("Game "+gid+" for player "+mainPlayer);
+  //console.log("Game "+gid+" for player "+mainPlayer);
 
   const [players, setPlayers] = useState([]);
   const [gameState, setGameState] = useState('');
@@ -173,7 +173,7 @@ export default function Board(props) {
       if (currTimeout) {
       clearTimeout(currTimeout);}
     }
-  }, [gameState, players, cards, playedCards, isNarrator, phrase]); // call useeffect every time something changes
+  }, [gameState, players, cards, playedCards, isNarrator, phrase, cardStatuses, mainPlayer]); // call useeffect every time something changes
 
 
 
@@ -198,7 +198,7 @@ export default function Board(props) {
 
         <Grid item xs={8} sm={10} className={classes.grid}>
           <Phrase phrase={phrase}/>
-          <Hand isNarrator={isNarrator} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState}/>
+          <Hand isNarrator={isNarrator} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState} cardStatuses={cardStatuses}/>
         </Grid>
         <Grid item xs={2} sm={2}>
         <Typography variant='body2' className={classes.title}>

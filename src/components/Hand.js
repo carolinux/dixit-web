@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-function determinePrompt(gameState, isNarrator) {
+function determinePrompt(gameState, isNarrator, cardStatuses) {
 
 
     if (gameState === "waiting_for_narrator" && isNarrator) {
@@ -72,22 +72,23 @@ function determinePrompt(gameState, isNarrator) {
 };
 
 
-function shouldShowDialog(gameState, isNarrator) {
+function shouldShowDialog(gameState, isNarrator, cardStatuses) {
 
 
  if (gameState === "waiting_for_narrator" && isNarrator) {
     return true;
  }
 
-  if (gameState === "waiting_for_players" && !isNarrator) {
+  if (gameState === "waiting_for_players" && !isNarrator && (!cardStatuses || (cardStatuses.myPlayed === ''))) {
     return true;
  }
 
  return false;
 }
 
+
 export default function Hand(props) {
-  const {isNarrator, player, cards, transitionGame, gameState } = { ...props };
+  const {isNarrator, player, cards, transitionGame, gameState, cardStatuses } = { ...props };
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [cardToSelect, setCardToSelect] = useState(undefined);
@@ -100,8 +101,8 @@ export default function Hand(props) {
   const question = isNarrator ? texts.cardSelectionDialog.question.mainPlayer
     : texts.cardSelectionDialog.question.otherPlayers;
 
-   const prompt = determinePrompt(gameState, isNarrator);
-   const showDialog = shouldShowDialog(gameState, isNarrator);
+   const prompt = determinePrompt(gameState, isNarrator, cardStatuses);
+   const showDialog = shouldShowDialog(gameState, isNarrator, cardStatuses);
 
 
 

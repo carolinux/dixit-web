@@ -55,6 +55,12 @@ export default function CardsPlayed(props) {
   };
 
   const play = (card) => {
+
+    if (cardStatuses && cardStatuses.myPlayed==card) {
+        return;
+    }
+
+
     !!card && setCardToSelect(card);
     console.log('selected card '+card);
     openDialog();
