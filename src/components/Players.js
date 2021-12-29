@@ -7,11 +7,18 @@ import SportsEsportsOutlinedIcon from '@material-ui/icons/SportsEsportsOutlined'
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(() => ({
   players: {
     color: 'black',
-    fontFamily: 'Lobster'
+    backgroundColor: 'white'
+    //fontFamily: 'Lobster'
+  },
+  narrator: {
+    color: 'black',
+    backgroundColor: '#c5e1a5'
+    //fontFamily: 'Lobster'
   },
   title: {
     fontFamily: 'Lobster',
@@ -33,11 +40,11 @@ export default function Players(props) {
   </Typography>
   <List>
     { players.map(player =>
-    <ListItem className={classes.players} key={player.name} style={{ 'background-color': 'white' }}>
-      <ListItemIcon className={classes.players}><SportsEsportsOutlinedIcon  style={{ fill: 'green' }}/></ListItemIcon>
+    <Fragment><ListItem className={player.isNarrator?classes.narrator:classes.players} key={player.name}>
+      <ListItemIcon  className={player.isNarrator?classes.narrator:classes.players} ><SportsEsportsOutlinedIcon  style={{ fill: 'green' }}/></ListItemIcon>
       {player.name}: {player.score} {player.roundScore>0 && <span>(+{player.roundScore})</span> }
        {player.isNarrator && <ArrowBack style={{ fill: 'green' }}/>}
-    </ListItem> )}
+    </ListItem> <Divider /></Fragment> )}
   </List>
   </Fragment>
   );

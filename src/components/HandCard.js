@@ -4,6 +4,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from "@material-ui/core/CardContent";
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
+import { HowToVote } from '@material-ui/icons';
+import ListItem from '@material-ui/core/ListItem';
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -43,10 +45,13 @@ export default function HandCard(props) {
 
             {cardStatuses && cardStatuses.summary  && cardStatuses.summary[card] && gameState === "round_revealed" &&
                 <CardContent>
-              <Typography style={{ fontFamily: 'Lobster' }}>
+              <Typography>
 
-               {cardStatuses.summary[card].player}'s card
-                  {cardStatuses.summary[card].votes.length>0 && <Typography>Voted by {cardStatuses.summary[card].votes.join(',')}</Typography>}
+               {cardStatuses.summary[card].isNarrator && <span style={{'color':'green', fontFamily: 'Lobster' }}>{cardStatuses.summary[card].player}</span>}
+               {!cardStatuses.summary[card].isNarrator && <span style={{'color':'#CB4C4E', fontFamily: 'Lobster' }}>{cardStatuses.summary[card].player}</span>}
+               {cardStatuses.summary[card].votes.length>0 &&
+                cardStatuses.summary[card].votes.map((voter) => <ListItem style={{textAlign: 'left'}}><HowToVote/>{voter}</ListItem>)
+               }
 
 
               </Typography>

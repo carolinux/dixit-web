@@ -27,18 +27,11 @@ const useStyles = makeStyles(() => ({
     color: 'black'
   },
 
-   vertical: {
-    fontFamily: 'Lobster',
-    paddingBottom: 10,
-    color: 'black',
-    //transform: "rotate(-90deg)"
-  },
-
     grid: {
     minWidth: 200,
-    fontFamily: 'Lobster',
+    //fontFamily: 'Lobster',
     textAlign: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     //borderRadius: '12px',
 
     //borderRight: 1
@@ -225,7 +218,7 @@ export default function Board(props) {
        <Typography variant='h3' className={classes.title}>
           BOARD >
         </Typography>
-                     <Typography variant='body1' className={classes.title}>
+                     <Typography variant='body1'>
           Cards will appear here when played.
         </Typography>
 
@@ -233,7 +226,7 @@ export default function Board(props) {
              <p></p><p></p>
           HAND <KeyboardArrowDown style={{ fontSize: '42px' }}/>
         </Typography>
-        <Typography variant='body1' className={classes.title}>
+        <Typography variant='body1'>
          Those are your cards, not visible to other players.
         </Typography>
         </Grid>
@@ -255,7 +248,7 @@ export default function Board(props) {
 
          <Grid item xs={2} sm={2} className={[classes.grid, classes.gridl, classes.cardsPlayed]} style={{ backgroundColor: 'rgba(128,0,128, 0.2)' }}>
           <Players players={players}/>
-        <Typography variant='body2' className={classes.title}>
+        <Typography variant='body2'>
           There are {players.length} player(s) connected.
         </Typography>
         </Grid>
