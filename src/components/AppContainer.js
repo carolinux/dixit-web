@@ -20,12 +20,6 @@ function AppContainer(props) {
         <Route path='/board/:gid'>
           <Board/>
         </Route>
-        <Route path='/rules'>
-          <Rules />
-        </Route>
-        <Route path='/about'>
-          <About />
-        </Route>
         <Route path='/'>
           <Rules />
         </Route>
