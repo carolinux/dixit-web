@@ -56,6 +56,7 @@ export default function Winners() {
   const {gid} = useParams();
   const [options, setOptions] = useState(undefined);
   const [soundStatus, setSoundStatus] = useState(Sound.status.STOPPED)
+  const soundUrl = `${process.env.PUBLIC_URL}/resources/sounds/ending.mp3`;
 
   let history = useHistory();
   const axiosWithCookies = axios.create({
@@ -94,7 +95,7 @@ export default function Winners() {
 
   return (<div><HighchartsReact highcharts={Highcharts} options={options} />
       <Sound
-      url="http://127.0.0.1:3000/resources/sounds/ending.mp3"
+      url={soundUrl}
       playStatus={soundStatus}
     />
     </div>

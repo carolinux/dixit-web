@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
 
 export default function HandCard(props) {
   const { card, cardStatuses, gameState } = { ...props };
-  const pictureUrl = `http://127.0.0.1:3000/resources/pictures/cards/medusa/${card}.jpg`;
+  const pictureUrl = `${process.env.PUBLIC_URL}/resources/pictures/cards/medusa/${card}.jpg`;
   const classes = useStyles();
   console.log("Inside HandCard")
   console.log(cardStatuses);
