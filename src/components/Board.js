@@ -79,7 +79,7 @@ export default function Board(props) {
   const [playedCards, setPlayedCards] = useState([]); // cards active in round
   const [cardStatuses, setCardStatuses] = useState({}); //statuses of cards in round relative to player or players, depending on game state
   const [isNarrator, setIsNarrator] = useState(false);
-  const [phrase, setPhrase] = useState('');
+  const [phrase, setPhrase] = useState('so many whars to garbl');
   let currTimeout = undefined;
 
 
@@ -212,8 +212,8 @@ export default function Board(props) {
     <Container>
       <Grid container>
 
-         <Grid item xs={2} sm={2}>
-       <Typography variant='h3' className={[classes.cardsPlayed, classes.grid, classes.gridtl]}>
+         <Grid item xs={2} sm={2}  className={[classes.cardsPlayed, classes.grid, classes.gridtl]}>
+       <Typography variant='h3' className={classes.title}>
           BOARD >
         </Typography>
         </Grid>
@@ -222,19 +222,31 @@ export default function Board(props) {
            <CardsPlayed cards={playedCards} gameState={gameState} isNarrator={isNarrator} transitionGame={transitionGame}  cardStatuses={cardStatuses}/>
         </Grid>
 
-        <Grid item xs={2} sm={2} className={[classes.grid, classes.gridbl]} >
-          <Players players={players}/>
+         <Grid item xs={12} sm={12} className={classes.grid}>
+          <Phrase phrase={phrase}/>
         </Grid>
 
 
-        <Grid item xs={8} sm={10} className={[classes.grid]}>
-          <Phrase phrase={phrase}/>
+
+
+
+
+        <Grid item xs={8} sm={10} className={[classes.grid, classes.cardsPlayed]}>
           <Hand isNarrator={isNarrator} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState} cardStatuses={cardStatuses}/>
         </Grid>
-        <Grid item xs={2} sm={2}>
+
+         <Grid item xs={2} sm={2} className={[classes.grid, classes.gridbl, classes.cardsPlayed]} >
+          <Players players={players}/>
         <Typography variant='body2' className={classes.title}>
           There are {players.length} player(s) connected.
         </Typography>
+        </Grid>
+
+
+        <Grid item xs={2} sm={2}>
+
+
+
         {gameState==="waiting_to_start" && <Button size='small' color='primary' onClick={() => transitionGame('start')} className={classes.control}>
           {texts.stateTransitions.start}
         </Button>
