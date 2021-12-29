@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   title: {
     fontFamily: 'Lobster',
     textAlign: 'center',
-    color: 'white'
+    color: 'black'
   },
 }));
 

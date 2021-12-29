@@ -59,6 +59,10 @@ const useStyles = makeStyles(() => ({
 
    gridb : {
       borderBottom: '2px solid #6a3805',
+  },
+
+   gridl : {
+      borderLeft: '2px solid #6a3805',
   }
 }));
 
@@ -217,7 +221,7 @@ export default function Board(props) {
     <Container>
       <Grid container>
 
-         <Grid item xs={2} sm={2}  className={[classes.cardsPlayed, classes.grid, classes.gridtl]}>
+         <Grid item xs={2} sm={2}  className={[classes.cardsPlayed, classes.grid, classes.gridtl]}  style={{ backgroundColor: 'rgba(128,0,128, 0.2)' }}>
        <Typography variant='h3' className={classes.title}>
           BOARD >
         </Typography>
@@ -249,7 +253,7 @@ export default function Board(props) {
           <Hand isNarrator={isNarrator} player={mainPlayer} cards={cards} transitionGame={transitionGame} gameState={gameState} cardStatuses={cardStatuses}/>
         </Grid>
 
-         <Grid item xs={2} sm={2} className={[classes.grid, classes.gridbl, classes.cardsPlayed]} >
+         <Grid item xs={2} sm={2} className={[classes.grid, classes.gridl, classes.cardsPlayed]} style={{ backgroundColor: 'rgba(128,0,128, 0.2)' }}>
           <Players players={players}/>
         <Typography variant='body2' className={classes.title}>
           There are {players.length} player(s) connected.
@@ -259,11 +263,11 @@ export default function Board(props) {
 
         <Grid item xs={2} sm={2}>
 
-        {gameState==="waiting_to_start" && <Button size='small' color='primary' onClick={() => transitionGame('start')} className={classes.control}>
+        {gameState==="waiting_to_start" && <Button size='medium' color='primary' onClick={() => transitionGame('start')} className={classes.control}>
           {texts.stateTransitions.start}
         </Button>
         }
-        {gameState==="round_revealed" && <Button size='small' color='primary' onClick={() => transitionGame('next')} className={classes.control}>
+        {gameState==="round_revealed" && <Button size='medium' color='primary' onClick={() => transitionGame('next')} className={classes.control}>
           {texts.stateTransitions.next}
         </Button>
         }

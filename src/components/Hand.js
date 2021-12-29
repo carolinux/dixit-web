@@ -50,21 +50,29 @@ function determinePrompt(gameState, isNarrator, cardStatuses) {
     return "Choose a card and an associated phrase!";
     }
     if (gameState === "waiting_for_narrator" && !isNarrator) {
-    return "Waiting for narrator to choose";
+    return "Waiting for narrator to choose a card and phrase.";
     }
 
-    if (gameState === "waiting_for_players" && isNarrator) {
+    if (gameState === "waiting_for_players" && (isNarrator || (cardStatuses && cardStatuses.myPlayed !== ''))) {
     return "Waiting for the other players to choose their decoys.";
     }
     if (gameState === "waiting_for_players" && !isNarrator) {
     return "Choose a decoy card!";
     }
 
-     if (gameState === "waiting_for_votes" && isNarrator) {
+     if (gameState === "waiting_for_votes" &&  (isNarrator || (cardStatuses && cardStatuses.myVoted !== ''))) {
     return "Waiting for the other players to cast their votes.";
     }
     if (gameState === "waiting_for_votes" && !isNarrator) {
     return "Vote the card that you think matches the phrase!";
+    }
+
+    if (gameState === "round_revealed") {
+    return "Results revealed!";
+    }
+
+    if (gameState === "waiting_to_start") {
+    return "Waiting for the game to start..";
     }
 
     return gameState;

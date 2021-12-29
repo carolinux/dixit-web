@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center',
     color: 'purple',
     fontStyle: 'italic',
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
   }
 }));
 
