@@ -50,12 +50,20 @@ export default function Login(props) {
 });
 
   let history = useHistory();
+  let joiningInProgress = false;
 
   const addPlayer = () => {
+  if (joiningInProgress) {
+    return;
+  }
+  joiningInProgress = true;
   console.log("Adding player to game")
   console.log(playerName);
   console.log(gameId)
-    if (formError) { return }
+    if (formError) {
+        joiningInProgress = false;
+        return;
+    }
 
     if (!!playerName && !!gameId) {
     console.log(process.env)
@@ -65,8 +73,13 @@ export default function Login(props) {
             console.log(res.data);
             history.push('/board/'+res.data['game']);
           })
+          .catch(error => {
+
+            joiningInProgress = false;
+          })
       };
       postData();
+      //joiningInProgress = false;
 
     }
   }

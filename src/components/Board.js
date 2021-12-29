@@ -92,9 +92,6 @@ export default function Board(props) {
   const updateFromApi = (game) => {
 
          let changed = false;
-         console.log(game.roundInfo.hand);
-
-
         if (game.player !== mainPlayer) {
             setMainPlayer(game.player);
             changed = true;
@@ -153,6 +150,7 @@ export default function Board(props) {
   }
 
   const transitionGame = (transition, transitionData) => {
+  console.log("Call transition game");
 
   if (transitionData === undefined) {
     transitionData = {};
@@ -182,25 +180,29 @@ export default function Board(props) {
        let changed = updateFromApi(game);
        //console.log("changed "+changed);
        if (!changed) {
-            currTimeout = setTimeout(() => updateState(), 5000)
+            currTimeout = setTimeout(() => updateState(), 4000)
         }
       }
      )
     .catch(function (error) {
     console.log(error);
+    if(!error.response) {
+        history.push('/');
+        return;
+    }
     if (error.response && (error.response.status === 404 || error.response.status === 401 || error.response.status === 403)) {
         history.push('/')
         return
     }
-    currTimeout = setTimeout(() => updateState(), 5000);
+    currTimeout = setTimeout(() => updateState(), 4000);
   })
 
   };
 
 
   useEffect(() => {
-  console.log('inside use effect')
-    const timerID = setTimeout(() => updateState(), 200)
+  //console.log('inside use effect')
+    const timerID = setTimeout(() => updateState(), 50)
     return () => {
       clearTimeout(timerID);
       if (currTimeout) {

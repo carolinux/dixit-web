@@ -18,9 +18,6 @@ export default function HandCard(props) {
   const { card, cardStatuses, gameState } = { ...props };
   const pictureUrl = `${process.env.PUBLIC_URL}/resources/pictures/cards/medusa/${card}.jpg`;
   const classes = useStyles();
-  console.log("Inside HandCard")
-  console.log(cardStatuses);
-
 
   return (
     <Card raised className={ classes.cardContainer }>
