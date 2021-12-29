@@ -8,7 +8,8 @@ const useStyles = makeStyles(() => ({
     fontFamily: 'Lobster',
     textAlign: 'center',
     color: 'purple',
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    backgroundColor: 'white',
   }
 }));
 

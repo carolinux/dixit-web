@@ -135,7 +135,6 @@ export default function CardsPlayed(props) {
             </Button>
           </DialogActions>
         </Dialog>}
-        {cards.length ==0 && <div className={classes.text}>Cards will appear here when played</div>}
       </div>
     </Fragment>
   )

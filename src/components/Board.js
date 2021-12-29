@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import revealSound from './assets/sounds/reveal.mp3'
 import phraseSound from './assets/sounds/phrase.mp3'
 import startSound from './assets/sounds/start.mp3'
+import { KeyboardArrowDown } from '@material-ui/icons';
 
 
 const useStyles = makeStyles(() => ({
@@ -54,6 +55,10 @@ const useStyles = makeStyles(() => ({
   },
    gridtr : {
       borderBottom: '2px solid #6a3805',
+  },
+
+   gridb : {
+      borderBottom: '2px solid #6a3805',
   }
 }));
 
@@ -79,7 +84,7 @@ export default function Board(props) {
   const [playedCards, setPlayedCards] = useState([]); // cards active in round
   const [cardStatuses, setCardStatuses] = useState({}); //statuses of cards in round relative to player or players, depending on game state
   const [isNarrator, setIsNarrator] = useState(false);
-  const [phrase, setPhrase] = useState('so many whars to garbl');
+  const [phrase, setPhrase] = useState('');
   let currTimeout = undefined;
 
 
@@ -216,18 +221,27 @@ export default function Board(props) {
        <Typography variant='h3' className={classes.title}>
           BOARD >
         </Typography>
+                     <Typography variant='body1' className={classes.title}>
+          Cards will appear here when played.
+        </Typography>
+
+             <Typography variant='h3' className={classes.title}>
+             <p></p><p></p>
+          HAND <KeyboardArrowDown style={{ fontSize: '42px' }}/>
+        </Typography>
+        <Typography variant='body1' className={classes.title}>
+         Those are your cards, not visible to other players.
+        </Typography>
         </Grid>
+
 
         <Grid item xs={8} sm={10} className={[classes.cardsPlayed, classes.grid, classes.gridtr]}>
            <CardsPlayed cards={playedCards} gameState={gameState} isNarrator={isNarrator} transitionGame={transitionGame}  cardStatuses={cardStatuses}/>
         </Grid>
 
-         <Grid item xs={12} sm={12} className={classes.grid}>
+         <Grid item xs={12} sm={12} className={[classes.grid, classes.gridb]}>
           <Phrase phrase={phrase}/>
         </Grid>
-
-
-
 
 
 
@@ -244,8 +258,6 @@ export default function Board(props) {
 
 
         <Grid item xs={2} sm={2}>
-
-
 
         {gameState==="waiting_to_start" && <Button size='small' color='primary' onClick={() => transitionGame('start')} className={classes.control}>
           {texts.stateTransitions.start}
