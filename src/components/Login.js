@@ -1,5 +1,4 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { getTexts } from './resources/Texts';
 import axios from 'axios';
@@ -8,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import GameSelector from './GameSelector';
+import { useHistory, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
+
+  const { preSelectedGid } = useParams();
+
 
   const texts = getTexts();
   const classes = useStyles();
@@ -116,6 +119,7 @@ export default function Login(props) {
   useEffect(() => {
     console.log('inside use effect');
     tryResumeFromCookie();
+    updateGame(preSelectedGid);
     return;
   }, []); // call useeffect every time something changes
 
@@ -125,6 +129,7 @@ export default function Login(props) {
 
 
   const updateGame = (gid) => setGameId(gid);
+
 
   return (
     <Grid container className={classes.root} spacing={2}>
@@ -149,7 +154,7 @@ export default function Login(props) {
                       {texts.login.nameUsed}
                     </Typography>
                   }
-                <GameSelector playerName={playerName} updateGame={updateGame} />
+                <GameSelector playerName={playerName} updateGame={updateGame} preSelectedGid={preSelectedGid}/>
 
                   <Button size='small' color='primary' onClick={addPlayer} className={classes.control}>
                     {texts.login.ready}

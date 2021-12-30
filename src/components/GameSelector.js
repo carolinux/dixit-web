@@ -3,10 +3,11 @@ import axios from 'axios';
 import {Select, MenuItem} from '@material-ui/core';
 
 export default function GameSelector(props) {
-  const {playerName, updateGame} = { ...props };
+  const {playerName, updateGame, preSelectedGid} = { ...props };
 
+  console.log(preSelectedGid);
 
-  const [selection, setSelection] = useState("");
+  const [selection, setSelection] = useState(preSelectedGid);
   const [games, setGames] = useState([]);
   const handleChange = (e) => {setSelection(e.target.value); updateGame(e.target.value)};
 
@@ -30,9 +31,9 @@ export default function GameSelector(props) {
 
   return (
   <Fragment>
-  <Select onChange={handleChange} defaultValue="new">
+  <Select onChange={handleChange} defaultValue={preSelectedGid? preSelectedGid: "new"}>
   <MenuItem value="new">Start New Game</MenuItem>
-  {games.filter(g=> g.join_action === 'join').map(game =>  <MenuItem value={game.id} key={game.id}>Existing game {game.id} with {game.players} player(s) ({game.playerString}) ({game.join_action})</MenuItem>)}
+  {games.filter(g=> g.join_action === 'join').map(game =>  <MenuItem  value={game.id} key={game.id}>Existing game {game.id} with {game.players} player(s) ({game.playerString}) ({game.join_action})</MenuItem>)}
   </Select>
 
   </Fragment>

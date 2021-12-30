@@ -11,7 +11,7 @@ function AppContainer(props) {
   return (
     <Router>
       <Switch>
-        <Route path='/login'>
+        <Route path='/login/:preSelectedGid'>
           <Login/>
         </Route>
         <Route path='/board/:gid/winners'>
