@@ -1,5 +1,8 @@
-# Dixit WEB UI (In progress)
-This is the web UI of an app that allows friends to play dixit online
+# Dixit WEB UI
+This is the web UI of an app that allows friends to play dixit online.
+
+The React components and their hierarchy were originally developed in 2020 by [https://github.com/emandilara/dixit-web](Eleni Mandilara).
+Then carolinux forked the project in 2021 and extended most of the existing components / hooked them to a brand new API which can be found at [https://github.com/carolinux/dixit-web](Dixit Web repo).
 
 ## Get started
 
@@ -18,26 +21,21 @@ In order to run the project in the development mode, in the root folder run
 
 `npm start`
 
-Open [http://localhost:3000/game](http://localhost:3000/game) to view it in the browser.
+Open [http://localhost:5000/game](http://localhost:5000/game) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### Test
-
-To run the tests (in this case the unit tests that are available), please run:
-
-`npm test`
-
-It will launch the test runner in the interactive watch mode.<br />
 
 ### Build
 
 To build the app for production to the `build` folder, please run:
 `npm run build`
 
+NB: This builds the app with the production url baked in.
+
 This will correctly bundle React in production mode and optimize the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
+The build is minified and the filenames include the hashes.
 
 ## Linter
 
