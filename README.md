@@ -2,7 +2,7 @@
 This is the web UI of an app that allows friends to play dixit online.
 
 The React components and their hierarchy were originally developed in 2020 by [https://github.com/emandilara/dixit-web](Eleni Mandilara).
-Then carolinux forked the project in 2021 and extended most of the existing components / hooked them to a brand new API which can be found at [https://github.com/carolinux/dixit-web](Dixit Web repo).
+Then carolinux forked the project in 2021 and extended most of the existing components / hooked them to a brand new API which can be found at [https://github.com/carolinux/dixit-api](Dixit API repo).
 
 ## Get started
 
